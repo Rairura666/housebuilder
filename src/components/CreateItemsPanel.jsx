@@ -1,4 +1,4 @@
-export const ItemsPanel = () => {
+export const CreateItemsPanel = ({addElementOnCanvas}) => {
     return (
         <>
             <div className="categoryOfItemPanel">
@@ -10,7 +10,8 @@ export const ItemsPanel = () => {
             </div>
 
             <div className="itemsList">
-            Im itemsList
+            <button onClick={()=>addElementOnCanvas("elem1")}>elem 1</button>
+            <button onClick={()=>addElementOnCanvas("elem2")}>elem 2</button>
 
             </div>
         </>

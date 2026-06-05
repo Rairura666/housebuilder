@@ -1,17 +1,33 @@
-import { ItemsPanel } from "./ItemsPanel"
+import { useState } from "react"
+import { CreateItemsPanel } from "./CreateItemsPanel"
 import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
+import { DrawingCanvas } from "./DrawingCanvas"
+import { useContext } from "react"
 
 export const CreatePage = () => {
+
+    const [canvasElements, setCanvasElements] = useState([]) 
+
+    const addElementOnCanvas = (category) => {
+        setCanvasElements(prev => [...prev, {
+            id: crypto.randomUUID(),
+            category,
+            x: 0,
+            y: 0 
+        }])
+    }
+
+
     return(
         <>
         <div  className = "menuBarsContainer">
-        <ItemsPanel/>
+        <CreateItemsPanel addElementOnCanvas={addElementOnCanvas} />
         <CreatePalettePanel/>
         <CreateControlPanel/>
         </div>
         
-        <div style={{width:"400px", height:"100px", backgroundColor:"blue"}} className="canvas"></div>
+        <DrawingCanvas canvasElements={canvasElements}/>
         </>
     )
 }

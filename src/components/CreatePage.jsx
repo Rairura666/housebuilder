@@ -19,6 +19,7 @@ export const CreatePage = () => {
     }
 
 
+
     return(
         <>
         <div  className = "menuBarsContainer">
@@ -27,7 +28,7 @@ export const CreatePage = () => {
         <CreateControlPanel/>
         </div>
         
-        <DrawingCanvas canvasElements={canvasElements}/>
+        <DrawingCanvas canvasElements={canvasElements} setCanvasElements = {setCanvasElements}/>
         </>
     )
 }

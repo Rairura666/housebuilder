@@ -1,4 +1,7 @@
+import { useEffect } from "react"
+
 export const CreateItemsPanel = ({addElementOnCanvas}) => {
+  
     return (
         <>
             <div className="categoryOfItemPanel">

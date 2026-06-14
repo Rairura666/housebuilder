@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-export const DrawingCanvas = ({canvasElements, setCanvasElements}) => {
+export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}) => {
 
     const [selectedElemId, setSelectedElemId] = useState()
    
@@ -10,18 +10,23 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements}) => {
             return
         }
 
-        setCanvasElements(prev => prev.map(
-            elem => elem.id === selectedElemId ? 
-            {
-                id: elem.id,
-                category: elem.category,
-                x: elem.x + xShift,
-                y: elem.y + yShift
-                
-            } 
-            : elem
-            
-        ))
+
+        setCanvasElements(prev => { 
+            const newState = prev.map(
+                elem => elem.id === selectedElemId ? 
+                {
+                    id: elem.id,
+                    category: elem.category,
+                    x: elem.x + xShift,
+                    y: elem.y + yShift                
+                } 
+                : elem           
+            )
+        
+        changeHistory(newState)
+        return newState
+        }
+    )
     }
 
     useEffect(() => {
@@ -67,10 +72,11 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements}) => {
             onClick={
                 (e)=>{e.stopPropagation()
                 setSelectedElemId(elem.id)}} 
-            style={{  position: "absolute",
-        left: elem.x,
-        top: elem.y,
-            color: selectedElemId == elem.id ? "green" : "red"}}>
+            style={{  
+                position: "absolute",
+                left: elem.x,
+                top: elem.y,
+                color: selectedElemId == elem.id ? "green" : "red"}}>
                 {elem.category}
             </button>
            )) }

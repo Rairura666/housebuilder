@@ -1,0 +1,29 @@
+.profilePageWrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  flex-direction: column;
+}
+
+.profileUserHeader {
+  background-color: cornflowerblue;
+  width: 100%;
+  display: flex;
+  color: midnightblue;
+  justify-content: space-around;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.profileProjectsList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.profileUserInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}/*# sourceMappingURL=ProfilePage.css.map */

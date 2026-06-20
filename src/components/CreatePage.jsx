@@ -4,6 +4,7 @@ import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import { useContext } from "react"
+import "../Css/CreatePage.css"
 
 export const CreatePage = () => {
 
@@ -56,17 +57,22 @@ export const CreatePage = () => {
         changeHistory(newState)
     }
 
-
-
     return(
-        <>
-        <div  className = "menuBarsContainer">
-        <CreateItemsPanel addElementOnCanvas={addElementOnCanvas} />
-        <CreatePalettePanel/>
-        <CreateControlPanel undo={undo} redo={redo}/>
+        <div className="createPageWrapper">
+            <div  className = "menuBarsContainer">
+                <div className="leftControlPanel">
+                    <CreateItemsPanel addElementOnCanvas={addElementOnCanvas} />
+                </div>
+
+                <div className="canvasWrapper">
+                <DrawingCanvas changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements = {setCanvasElements}/>
+                </div>
+
+                <div  className="rightControlPanel">
+                    <CreatePalettePanel/>
+                    <CreateControlPanel className="createControlPanel" undo={undo} redo={redo}/>
+                </div>
+            </div>    
         </div>
-        
-        <DrawingCanvas changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements = {setCanvasElements}/>
-        </>
     )
 }

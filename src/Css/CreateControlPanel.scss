@@ -1,0 +1,15 @@
+.createControlPanelWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: cornflowerblue;
+    padding: 2rem;
+}
+
+.createControlPanelWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    button {
+       width: 100%;
+    }
+}

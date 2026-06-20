@@ -1,7 +1,7 @@
 export const ProfileProjectsList = () => {
     return(
         <>
- i"m ProfileProjectsList
+ i'm a ProfileProjectsList
         </>
     )
 }

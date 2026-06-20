@@ -1,7 +1,12 @@
+import "../Css/MainPage.css" 
+
 export const MainPage = () => {
     return(
-        <>
-        Im a main page, Yo
-        </>
+        <div className="mainPageWrapper">
+            <div className="titleText">
+             Im a main page, Yo
+            </div>
+        </div>
+      
     )
 }

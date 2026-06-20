@@ -60,9 +60,7 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}
     }, [selectedElemId])
 
     return(
-        <>
            <div 
-           style={{position: "relative", width:"400px", height:"100px", color:"red", backgroundColor:"blue"}} 
            className="canvas" 
            onClick={()=>setSelectedElemId(null)}>
 
@@ -82,6 +80,5 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}
            )) }
 
            </div>
-        </>
     )
 }

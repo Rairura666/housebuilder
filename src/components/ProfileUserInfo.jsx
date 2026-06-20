@@ -1,8 +1,11 @@
 export const ProfileUserInfo = () => {
     return(
         <>
-        <div>Im a prof pic</div>
-        <p>Name</p>
+        <div className="profileUserInfo">
+            <p>Name</p>
+            <div>Im a prof pic</div>
+        </div>
+   
         <button>settings</button>
         </>
     )

@@ -1,7 +1,12 @@
 import { useEffect } from "react"
 
-export const CreateItemsPanel = ({addElementOnCanvas}) => {
+type createItemsPanelProps = {
+    addElementOnCanvas: (category: string) => void
+}
+
+export const CreateItemsPanel = ({addElementOnCanvas}:createItemsPanelProps) => {
   
+    
     return (
         <div className="createItemsPanelWrapper">
             <div className="categoryOfItemPanel">

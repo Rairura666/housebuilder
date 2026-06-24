@@ -4,21 +4,14 @@ import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
+import {canvasElement } from "../types"
 
 export const CreatePage = () => {
-
-    type canvasElement = {
-        id: string,
-        category: string,
-        x: number,
-        y: number
-    }
 
     const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])
 
     const [history, setHistory] = useState<canvasElement[][]>([])
     const [historyIndex, setHistoryIndex] = useState<number>(-1)
-
 
     const changeHistory = (newState: canvasElement[]) => {
 

@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react"
+import {drawingCanvasProps} from "../types"
 
-export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}) => {
+export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}:drawingCanvasProps) => {
 
-    const [selectedElemId, setSelectedElemId] = useState()
+    const [selectedElemId, setSelectedElemId] = useState<string | null>()
    
-    const moveSelectedElement = (xShift, yShift) => {
+    const moveSelectedElement = (xShift: number, yShift: number) => {
         
         if(selectedElemId == null) {
             return
@@ -30,7 +31,7 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}
     }
 
     useEffect(() => {
-        const handleKeyPress = (e) => {
+        const handleKeyPress = (e: KeyboardEvent) => {
             if(e.key == "ArrowUp"){
                 moveSelectedElement(0, -10)
             }

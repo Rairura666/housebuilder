@@ -1,8 +1,4 @@
-import { useEffect } from "react"
-
-type createItemsPanelProps = {
-    addElementOnCanvas: (category: string) => void
-}
+import {createItemsPanelProps} from "../types"
 
 export const CreateItemsPanel = ({addElementOnCanvas}:createItemsPanelProps) => {
   

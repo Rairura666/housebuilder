@@ -1,6 +1,8 @@
 import "../Css/CreateControlPanel.css"
+import {createControlPanelProps} from "../types"
 
-export const CreateControlPanel = ({undo, redo}) => {
+
+export const CreateControlPanel = ({undo, redo}: createControlPanelProps) => {
     return(
         <div className="createControlPanelWrapper">
             <button>Open project</button>

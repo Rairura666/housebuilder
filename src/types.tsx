@@ -7,11 +7,18 @@ export type canvasElement = {
         y: number
     }
 
-    
+export type elementGeneral = {
+    id: string,
+    category: string,
+}
+
 export type drawingCanvasProps = {
+        canvasRef: React.RefObject<HTMLDivElement | null>,
         canvasElements: canvasElement[],
         setCanvasElements:  Dispatch<SetStateAction<canvasElement[]>>, 
-        changeHistory: (newState: canvasElement[]) => void
+        changeHistory: (newState: canvasElement[]) => void,
+        setSelectedElemId: Dispatch<SetStateAction<string | null>>,
+        selectedElemId: string | null
     }
 
 export type createControlPanelProps = {
@@ -20,5 +27,13 @@ export type createControlPanelProps = {
 }
 
 export type createItemsPanelProps = {
-    addElementOnCanvas: (category: string) => void
+    addElementOnCanvas: (elem: canvasElement) => void
+}
+
+export type canvasElementProps = {
+    elem: canvasElement
+}
+
+export type elementPreviewProps = {
+    elemGeneral: elementGeneral
 }

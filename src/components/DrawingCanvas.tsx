@@ -1,16 +1,21 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import {drawingCanvasProps} from "../types"
+import  { useDroppable } from "@dnd-kit/core"
+import { CanvasElement } from "./CanvasElement"
+import "../Css/DrawingCanvas.css"
 
-export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}:drawingCanvasProps) => {
 
-    const [selectedElemId, setSelectedElemId] = useState<string | null>()
-   
+export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory}:drawingCanvasProps) => {
+ 
+    const {setNodeRef} = useDroppable({
+    id: 'canvasId',
+  })
+
     const moveSelectedElement = (xShift: number, yShift: number) => {
         
         if(selectedElemId == null) {
             return
         }
-
 
         setCanvasElements(prev => { 
             const newState = prev.map(
@@ -58,14 +63,21 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}
             window.removeEventListener("keydown", handleKeyPress)
         }
 
-    }, [selectedElemId])
+    }, [selectedElemId, canvasElements])
+
+
+    const setCanvasRef = (node: HTMLDivElement | null) => {
+        setNodeRef(node)
+        canvasRef.current = node
+    }
 
     return(
            <div 
+           ref={setCanvasRef}
            className="canvas" 
            onClick={()=>setSelectedElemId(null)}>
 
-           { canvasElements.map(elem => (
+           {/* canvasElements.map(elem => (
             <button 
             key={elem.id} 
             onClick={
@@ -78,7 +90,22 @@ export const DrawingCanvas = ({canvasElements, setCanvasElements, changeHistory}
                 color: selectedElemId == elem.id ? "green" : "red"}}>
                 {elem.category}
             </button>
-           )) }
+           )) */}
+
+            { canvasElements.map(elem => 
+            <div
+            key={elem.id} 
+            onClick={
+                (e)=>{e.stopPropagation()
+                setSelectedElemId(elem.id)}}
+            className="canvasElem"  
+            style={{ 
+                position: "absolute", 
+                left: elem.x,
+                top: elem.y,
+                backgroundColor: selectedElemId == elem.id ? "green" : "white"}}> 
+                <CanvasElement elem={elem}/> 
+            </div> ) }
 
            </div>
     )

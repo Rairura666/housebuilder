@@ -7,11 +7,11 @@ import "../Css/CreatePage.css"
 import {canvasElement } from "../types"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext } from "@dnd-kit/core"
+import {CANVAS_PIXEL_SIZE} from "../constants"
 
 export const CreatePage = () => {
 
-    const CANVAS_PIXEL_SIZE = 5 
-
+  
     const [dragOffset, setDragOffset] = useState({x:0, y:0})
 
     const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])

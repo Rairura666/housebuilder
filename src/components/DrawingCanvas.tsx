@@ -7,9 +7,11 @@ import "../Css/DrawingCanvas.css"
 
 export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory}:drawingCanvasProps) => {
  
+
+   
     const {setNodeRef} = useDroppable({
-    id: 'canvasId',
-  })
+        id: 'canvasId',
+     })
 
     const moveSelectedElement = (xShift: number, yShift: number) => {
         
@@ -77,25 +79,10 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
            className="canvas" 
            onClick={()=>setSelectedElemId(null)}>
 
-           {/* canvasElements.map(elem => (
-            <button 
-            key={elem.id} 
-            onClick={
-                (e)=>{e.stopPropagation()
-                setSelectedElemId(elem.id)}} 
-            style={{  
-                position: "absolute",
-                left: elem.x,
-                top: elem.y,
-                color: selectedElemId == elem.id ? "green" : "red"}}>
-                {elem.category}
-            </button>
-           )) */}
-
             { canvasElements.map(elem => 
             <div
             key={elem.id} 
-            onClick={
+            onPointerDown={
                 (e)=>{e.stopPropagation()
                 setSelectedElemId(elem.id)}}
             className="canvasElem"  
@@ -103,8 +90,8 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
                 position: "absolute", 
                 left: elem.x,
                 top: elem.y,
-                backgroundColor: selectedElemId == elem.id ? "green" : "white"}}> 
-                <CanvasElement elem={elem}/> 
+               }}> 
+                <CanvasElement selected={selectedElemId == elem.id} elem={elem}/> 
             </div> ) }
 
            </div>

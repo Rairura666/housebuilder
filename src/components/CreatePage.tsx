@@ -5,10 +5,14 @@ import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
 import {canvasElement } from "../types"
-import type { DragEndEvent } from "@dnd-kit/core";
+import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext } from "@dnd-kit/core"
 
 export const CreatePage = () => {
+
+    const CANVAS_PIXEL_SIZE = 5 
+
+    const [dragOffset, setDragOffset] = useState({x:0, y:0})
 
     const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])
 
@@ -18,6 +22,25 @@ export const CreatePage = () => {
     const [selectedElemId, setSelectedElemId] = useState<string | null>(null)
     
     const canvasRef = useRef<HTMLDivElement>(null)
+
+    function handleDragStart(event: DragStartEvent) {
+        const active = event.active
+
+        const pointer = event.activatorEvent as PointerEvent
+
+        const element = document.querySelector(
+            `[data-id="${active.id}"]`
+        ) as HTMLElement
+
+        if(!element) return
+
+        const rect = element.getBoundingClientRect()
+
+        setDragOffset({
+            x: pointer.clientX - rect.left,
+            y: pointer.clientY - rect.top
+        })
+    }
 
     function handleDragEnd(event: DragEndEvent) {
         const { active, over} = event;
@@ -30,10 +53,12 @@ export const CreatePage = () => {
     
         const rect = canvasRef.current.getBoundingClientRect()
         const startEvent = event.activatorEvent as PointerEvent;
+        
+        const dropX = Math.round(
+        (startEvent.clientX - rect.left + event.delta.x - dragOffset.x)/CANVAS_PIXEL_SIZE) * CANVAS_PIXEL_SIZE
 
-        const dropX = startEvent.clientX - rect.left + event.delta.x;
-        const dropY = startEvent.clientY - rect.top + event.delta.y;
-
+        const dropY = Math.round(
+        (startEvent.clientY - rect.top + event.delta.y - dragOffset.y)/CANVAS_PIXEL_SIZE) * CANVAS_PIXEL_SIZE
 
         if(active.data.current?.type == "canvasElem"){
             const newElem: canvasElement = {
@@ -109,7 +134,9 @@ export const CreatePage = () => {
 
     return (
         <div className="createPageWrapper">
-            <DndContext onDragEnd={handleDragEnd}>
+            <DndContext 
+            onDragEnd={handleDragEnd}
+            onDragStart={handleDragStart}>
             <div className="menuBarsContainer">
                 <div className="leftControlPanel">
                     <CreateItemsPanel addElementOnCanvas={addElementOnCanvas} />

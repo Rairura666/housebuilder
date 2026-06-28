@@ -3,7 +3,7 @@ import { canvasElementProps } from "../types";
 import "../Css/CanvasElement.css"
 
 
-export const CanvasElement = ({elem}: canvasElementProps) => {
+export const CanvasElement = ({selected, elem}: canvasElementProps) => {
   
     const {attributes, listeners, setNodeRef, transform} = useDraggable({
         id: elem.id,
@@ -13,12 +13,21 @@ export const CanvasElement = ({elem}: canvasElementProps) => {
             }
      })
 
-    const style = transform ? {
-        transform: `translate(${transform.x}px, ${transform.y}px)`,
-    } : undefined
+    const style = {
+        
+    transform: transform ?
+     `translate(${transform.x}px, ${transform.y}px)`
+     : undefined,
+
+    border: selected ? "solid 2px green" : "none"
+    }
+    
 
     return(
-    <div className="canvasElementWrapper" ref={setNodeRef} {...listeners} {...attributes} style={style}>
+    <div className="canvasElementWrapper" 
+    data-id={elem.id} 
+    ref={setNodeRef} {...listeners} {...attributes} style={style}
+    tabIndex={-1}>
          elem {elem.category}
     </div>
 )}

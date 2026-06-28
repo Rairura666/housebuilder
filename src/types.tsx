@@ -31,6 +31,7 @@ export type createItemsPanelProps = {
 }
 
 export type canvasElementProps = {
+    selected: boolean,
     elem: canvasElement
 }
 

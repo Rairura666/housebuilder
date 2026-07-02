@@ -72,11 +72,11 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-
 .itemsList .elem {
   background-color: aliceblue;
   color: aliceblue;
   width: 100%;
+  overflow: hidden;
 }
 
 .createItemsPanelWrapper {

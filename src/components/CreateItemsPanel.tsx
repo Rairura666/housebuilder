@@ -1,9 +1,6 @@
-import {canvasElement, elementGeneral, createItemsPanelProps} from "../types"
-import { CanvasElement } from "./CanvasElement"
+import {elementGeneral} from "../types"
 import { ElementPreview } from "./ElementPreview"
 
-export const CreateItemsPanel = ({addElementOnCanvas}:createItemsPanelProps) => {
-  
     const elem1:elementGeneral = {
         id: "1",
         category: "window",
@@ -14,6 +11,10 @@ export const CreateItemsPanel = ({addElementOnCanvas}:createItemsPanelProps) => 
         category: "door",
     }
     
+
+export const CreateItemsPanel = () => {
+  
+
     return (
         <div className="createItemsPanelWrapper">
             <div className="categoryOfItemPanel">
@@ -27,8 +28,6 @@ export const CreateItemsPanel = ({addElementOnCanvas}:createItemsPanelProps) => 
             </div>
 
             <div className="itemsList">
-                {/* <button onClick={()=>addElementOnCanvas(elem1)}> elem1</button>
-                <button onClick={()=>addElementOnCanvas(elem2)}> elem2</button> */}
                 <div className="elem">
                     <ElementPreview elemGeneral={elem1}/>
                 </div>

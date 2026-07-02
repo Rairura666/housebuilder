@@ -14,11 +14,6 @@ export const CanvasElement = ({selected, elem}: canvasElementProps) => {
      })
 
     const style = {
-        
-    transform: transform ?
-     `translate(${transform.x}px, ${transform.y}px)`
-     : undefined,
-
     border: selected ? "solid 2px green" : "none"
     }
     
@@ -28,6 +23,6 @@ export const CanvasElement = ({selected, elem}: canvasElementProps) => {
     data-id={elem.id} 
     ref={setNodeRef} {...listeners} {...attributes} style={style}
     tabIndex={-1}>
-         elem {elem.category}
+        {elem.category}
     </div>
 )}

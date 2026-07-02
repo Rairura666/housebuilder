@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { CreateItemsPanel } from "./CreateItemsPanel"
 import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
@@ -6,8 +6,9 @@ import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
 import {canvasElement } from "../types"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
-import { DndContext } from "@dnd-kit/core"
+import { DndContext, DragOverlay } from "@dnd-kit/core"
 import {CANVAS_PIXEL_SIZE} from "../constants"
+import { ElementPreview } from "./ElementPreview"
 
 export const CreatePage = () => {
 
@@ -23,9 +24,18 @@ export const CreatePage = () => {
     
     const canvasRef = useRef<HTMLDivElement>(null)
 
-    function handleDragStart(event: DragStartEvent) {
-        const active = event.active
+    const [activeDrag, setActiveDrag] = useState<{generalElemId: string | number | null, category: string} | null>(null)
 
+    // useEffect(()=> {
+    //     setHistory(prev => {
+    //     const cut = prev.slice(0, historyIndex + 1)
+    //     return [...cut, canvasElements]
+    // })
+    // }, [canvasElements])
+
+    function handleDragStart(event: DragStartEvent) {
+
+        const active = event.active
         const pointer = event.activatorEvent as PointerEvent
 
         const element = document.querySelector(
@@ -40,6 +50,11 @@ export const CreatePage = () => {
             x: pointer.clientX - rect.left,
             y: pointer.clientY - rect.top
         })
+
+        setActiveDrag({
+            generalElemId: active.id,
+            category: active.data.current?.category,
+        })
     }
 
     function handleDragEnd(event: DragEndEvent) {
@@ -50,7 +65,8 @@ export const CreatePage = () => {
         }
 
         if (!canvasRef.current) return
-    
+
+  
         const rect = canvasRef.current.getBoundingClientRect()
         const startEvent = event.activatorEvent as PointerEvent;
         
@@ -60,6 +76,8 @@ export const CreatePage = () => {
         const dropY = Math.round(
         (startEvent.clientY - rect.top + event.delta.y - dragOffset.y)/CANVAS_PIXEL_SIZE) * CANVAS_PIXEL_SIZE
 
+        setActiveDrag(null)
+    
         if(active.data.current?.type == "canvasElem"){
             const newElem: canvasElement = {
                 id:  String(active.id) ,
@@ -86,6 +104,8 @@ export const CreatePage = () => {
             return newState
             })
         }
+
+        
 
     }   
 
@@ -119,40 +139,51 @@ export const CreatePage = () => {
     }
 
 
-    const addElementOnCanvas = (elem: canvasElement) => {
+    // const addElementOnCanvas = (elem: canvasElement) => {
 
-        const newState = [...canvasElements, {
-            id: elem.id,
-            category: elem.category,
-            x: elem.x,
-            y: elem.y
-        }]
-        setCanvasElements(newState)
+    //     const newState = [...canvasElements, {
+    //         id: elem.id,
+    //         category: elem.category,
+    //         x: elem.x,
+    //         y: elem.y
+    //     }]
+    //     setCanvasElements(newState)
 
-        changeHistory(newState)
-    }
+    //     changeHistory(newState)
+    // }
 
     return (
         <div className="createPageWrapper">
             <DndContext 
             onDragEnd={handleDragEnd}
             onDragStart={handleDragStart}>
-            <div className="menuBarsContainer">
-                <div className="leftControlPanel">
-                    <CreateItemsPanel addElementOnCanvas={addElementOnCanvas} />
-                </div>
 
-                <div className="canvasWrapper" >
-                    <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} />
-                </div>
+                <div className="menuBarsContainer">
+                    <div className="leftControlPanel">
+                        <CreateItemsPanel />
+                    </div>
 
-                <div className="rightControlPanel">
-                    <CreatePalettePanel />
-                    <div className="createControlPanel">
-                        <CreateControlPanel undo={undo} redo={redo} />                    
+                    <div className="canvasWrapper" >
+                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} />
+                    </div>
+
+                    <div className="rightControlPanel">
+                        <CreatePalettePanel />
+                        <div className="createControlPanel">
+                            <CreateControlPanel undo={undo} redo={redo} />                    
+                        </div>
                     </div>
                 </div>
-            </div>
+                <DragOverlay>
+                {activeDrag && (
+                    <ElementPreview
+                        elemGeneral={{
+                            id: String(activeDrag.generalElemId),
+                            category: activeDrag.category,
+                        }}
+                    />
+                )}
+                </DragOverlay>
             </DndContext>
         </div>
     )

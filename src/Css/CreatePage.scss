@@ -76,13 +76,16 @@
     flex-direction: column;
     overflow-y: auto;
     overflow-x: hidden;
+
+    .elem {
+        background-color: aliceblue;
+        color: aliceblue;
+        width: 100%;
+        overflow: hidden;
+    }
 }
 
-.itemsList .elem {
-    background-color: aliceblue;
-    color: aliceblue;
-    width: 100%;
-}
+
 
 .createItemsPanelWrapper {
     display: flex;
@@ -90,4 +93,3 @@
     height: 100%;
     min-height: 0; 
 }
-

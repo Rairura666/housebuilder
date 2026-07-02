@@ -26,15 +26,15 @@ export type createControlPanelProps = {
     redo: () => void 
 }
 
-export type createItemsPanelProps = {
-    addElementOnCanvas: (elem: canvasElement) => void
-}
-
 export type canvasElementProps = {
     selected: boolean,
     elem: canvasElement
 }
 
 export type elementPreviewProps = {
+    elemGeneral: elementGeneral
+}
+
+export type elementPreviewViewProps = {
     elemGeneral: elementGeneral
 }

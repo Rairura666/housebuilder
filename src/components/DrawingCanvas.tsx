@@ -1,13 +1,20 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {drawingCanvasProps} from "../types"
 import  { useDroppable } from "@dnd-kit/core"
 import { CanvasElement } from "./CanvasElement"
 import "../Css/DrawingCanvas.css"
 import {CANVAS_PIXEL_SIZE} from "../constants"
+import Moveable from "react-moveable"
+
 
 export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory}:drawingCanvasProps) => {
  
-
+    const [canvasSize, setCanvasSize] = useState({
+        width: 200,
+        height: 200,
+    })
+        
+    const [isCanvasSelected, setIsCanvasSelected] = useState<boolean>(false)
    
     const {setNodeRef} = useDroppable({
         id: 'canvasId',
@@ -73,27 +80,62 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
         canvasRef.current = node
     }
 
-    return(
-           <div 
+
+    return(<>
+    
+        <Moveable
+            target={isCanvasSelected ? canvasRef.current : null}
+            resizable={true}
+            draggable={false}
+            rotatable={false}
+            throttleResize={CANVAS_PIXEL_SIZE}
+            renderDirections={[
+                "n",
+                "s",
+                "e",
+                "w",
+                "nw",
+                "ne",
+                "sw",
+                "se",
+            ]}
+           onResize={({ target, width, height, drag }) => {
+                const [dx, dy] = drag.beforeTranslate;
+
+                target.style.width = `${width}px`;
+                target.style.height = `${height}px`;
+
+                target.style.transform = `translate(${dx}px, ${dy}px)`;
+            }}
+        />
+
+        <div 
            ref={setCanvasRef}
            className="canvas" 
-           onClick={()=>setSelectedElemId(null)}>
-
-            { canvasElements.map(elem => 
-            <div
-            key={elem.id} 
-            onPointerDown={
-                (e)=>{e.stopPropagation()
-                setSelectedElemId(elem.id)}}
-            className="canvasElem"  
-            style={{ 
-                position: "absolute", 
-                left: elem.x,
-                top: elem.y,
-               }}> 
-                <CanvasElement selected={selectedElemId == elem.id} elem={elem}/> 
-            </div> ) }
-
-           </div>
+           onClick={()=>{
+            setSelectedElemId(null)
+            setIsCanvasSelected(!isCanvasSelected)
+            }}
+            style={{width: canvasSize.width,
+                height: canvasSize.height
+            }}
+            >
+                { canvasElements.map(elem => 
+                <div
+                key={elem.id} 
+                onPointerDown={
+                    (e)=>{e.stopPropagation()
+                    setSelectedElemId(elem.id)}}
+                className="canvasElem"  
+                style={{ 
+                    position: "absolute", 
+                    left: elem.x,
+                    top: elem.y,
+                }}> 
+                    <CanvasElement selected={selectedElemId == elem.id} elem={elem}/> 
+                </div> ) }
+        </div>
+    </>
+           
     )
 }

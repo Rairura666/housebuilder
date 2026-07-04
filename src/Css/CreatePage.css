@@ -42,14 +42,6 @@
   background-color: midnightblue;
 }
 
-.canvas {
-  position: relative;
-  width: 300px;
-  height: 100px;
-  color: red;
-  background-color: dodgerblue;
-}
-
 .categoryOfItemPanel {
   display: flex;
   flex-direction: column;

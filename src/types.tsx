@@ -38,3 +38,4 @@ export type elementPreviewProps = {
 export type elementPreviewViewProps = {
     elemGeneral: elementGeneral
 }
+

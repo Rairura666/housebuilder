@@ -8,7 +8,8 @@ import {canvasElement } from "../types"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import {CANVAS_PIXEL_SIZE} from "../constants"
-import { ElementPreview } from "./ElementPreview"
+import { ElementPreviewView } from "./ElementPreviewView"
+
 
 export const CreatePage = () => {
 
@@ -25,13 +26,6 @@ export const CreatePage = () => {
     const canvasRef = useRef<HTMLDivElement>(null)
 
     const [activeDrag, setActiveDrag] = useState<{generalElemId: string | number | null, category: string} | null>(null)
-
-    // useEffect(()=> {
-    //     setHistory(prev => {
-    //     const cut = prev.slice(0, historyIndex + 1)
-    //     return [...cut, canvasElements]
-    // })
-    // }, [canvasElements])
 
     function handleDragStart(event: DragStartEvent) {
 
@@ -160,7 +154,7 @@ export const CreatePage = () => {
 
                 <div className="menuBarsContainer">
                     <div className="leftControlPanel">
-                        <CreateItemsPanel />
+                        <CreateItemsPanel/>
                     </div>
 
                     <div className="canvasWrapper" >
@@ -174,9 +168,9 @@ export const CreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <DragOverlay>
+                <DragOverlay dropAnimation={null}>
                 {activeDrag && (
-                    <ElementPreview
+                    <ElementPreviewView
                         elemGeneral={{
                             id: String(activeDrag.generalElemId),
                             category: activeDrag.category,

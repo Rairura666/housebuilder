@@ -17,4 +17,5 @@ export const ElementPreview = ({elemGeneral}: elementPreviewProps) => {
     <div className="elementPreviewWrapper" ref={setNodeRef} {...listeners} {...attributes}>
         {elemGeneral.category}
     </div>
-)}
+)
+}

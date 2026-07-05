@@ -1,11 +1,24 @@
 import "../Css/CreatePalettePanel.css"
+import { createPaletteProps } from "../types"
+import { palettes } from "../constants"
 
-export const CreatePalettePanel = () => {
+export const CreatePalettePanel = ({setSelectedPalette}: createPaletteProps) => {
     return (
         <div className="createPalettePanelWrapper">
-            <button className="createPaletteBtn">palette 1</button>
-            <button className="createPaletteBtn">palette 2</button>
-            <button className="createPaletteBtn">palette 3</button>
+            <button 
+            className="createPaletteBtn"
+            onClick={()=>setSelectedPalette(palettes.yellowBlue)}
+            >Yellow and blue</button>
+            
+            <button 
+            className="createPaletteBtn"
+             onClick={()=>setSelectedPalette(palettes.redGreen)}
+            >Red and green</button>
+            
+            <button 
+            className="createPaletteBtn"
+            onClick={()=>setSelectedPalette(palettes.blackWhite)}
+            >Black and white</button>
         </div>
     )
 }

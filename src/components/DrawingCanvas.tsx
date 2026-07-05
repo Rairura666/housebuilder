@@ -32,6 +32,7 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
                 {
                     id: elem.id,
                     category: elem.category,
+                    palette: elem.palette,
                     x: elem.x + xShift,
                     y: elem.y + yShift                
                 } 
@@ -40,8 +41,7 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
         
         changeHistory(newState)
         return newState
-        }
-    )
+        })
     }
 
     useEffect(() => {
@@ -50,17 +50,14 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
                 moveSelectedElement(0, -1 * CANVAS_PIXEL_SIZE)
             }
 
-             
             if(e.key == "ArrowDown"){
                 moveSelectedElement(0, 1 * CANVAS_PIXEL_SIZE)
             }
 
-             
             if(e.key == "ArrowLeft"){
                 moveSelectedElement(-1 * CANVAS_PIXEL_SIZE, 0)
             }
 
-             
             if(e.key == "ArrowRight"){
                 moveSelectedElement(1 * CANVAS_PIXEL_SIZE, 0)
             }
@@ -79,7 +76,6 @@ export const DrawingCanvas = ({canvasRef, setSelectedElemId, selectedElemId, can
         setNodeRef(node)
         canvasRef.current = node
     }
-
 
     return(<>
     

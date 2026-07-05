@@ -5,6 +5,7 @@ import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
 import {canvasElement } from "../types"
+import {palettes, categories} from "../constants"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import {CANVAS_PIXEL_SIZE} from "../constants"
@@ -13,6 +14,7 @@ import { ElementPreviewView } from "./ElementPreviewView"
 
 export const CreatePage = () => {
 
+    const [selectedPalette, setSelectedPalette] = useState<string>(palettes.yellowBlue)
   
     const [dragOffset, setDragOffset] = useState({x:0, y:0})
 
@@ -25,7 +27,7 @@ export const CreatePage = () => {
     
     const canvasRef = useRef<HTMLDivElement>(null)
 
-    const [activeDrag, setActiveDrag] = useState<{generalElemId: string | number | null, category: string} | null>(null)
+    const [activeDrag, setActiveDrag] = useState<{generalElemId: string | number | null, category: string, palette: string} | null>(null)
 
     function handleDragStart(event: DragStartEvent) {
 
@@ -48,6 +50,7 @@ export const CreatePage = () => {
         setActiveDrag({
             generalElemId: active.id,
             category: active.data.current?.category,
+            palette:  active.data.current?.palette,
         })
     }
 
@@ -76,6 +79,7 @@ export const CreatePage = () => {
             const newElem: canvasElement = {
                 id:  String(active.id) ,
                 category: active.data.current?.category,
+                palette: active.data.current?.palette,
                 x: dropX,
                 y: dropY
             }
@@ -90,6 +94,7 @@ export const CreatePage = () => {
                 const newElem: canvasElement = {
                 id:  crypto.randomUUID(),
                 category: active.data.current?.category,
+                palette: active.data.current?.palette,
                 x: dropX,
                 y: dropY
             }
@@ -154,7 +159,7 @@ export const CreatePage = () => {
 
                 <div className="menuBarsContainer">
                     <div className="leftControlPanel">
-                        <CreateItemsPanel/>
+                        <CreateItemsPanel selectedPalette={selectedPalette}/>
                     </div>
 
                     <div className="canvasWrapper" >
@@ -162,7 +167,7 @@ export const CreatePage = () => {
                     </div>
 
                     <div className="rightControlPanel">
-                        <CreatePalettePanel />
+                        <CreatePalettePanel setSelectedPalette={setSelectedPalette} />
                         <div className="createControlPanel">
                             <CreateControlPanel undo={undo} redo={redo} />                    
                         </div>
@@ -174,6 +179,7 @@ export const CreatePage = () => {
                         elemGeneral={{
                             id: String(activeDrag.generalElemId),
                             category: activeDrag.category,
+                            palette: activeDrag.palette,
                         }}
                     />
                 )}

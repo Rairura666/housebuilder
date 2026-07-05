@@ -1,8 +1,9 @@
 import { Dispatch, SetStateAction } from "react";   
-   
+
 export type canvasElement = {
         id: string,
         category: string,
+        palette: string,
         x: number,
         y: number
     }
@@ -10,6 +11,7 @@ export type canvasElement = {
 export type elementGeneral = {
     id: string,
     category: string,
+    palette: string,
 }
 
 export type drawingCanvasProps = {
@@ -37,5 +39,13 @@ export type elementPreviewProps = {
 
 export type elementPreviewViewProps = {
     elemGeneral: elementGeneral
+}
+
+export type createPaletteProps = {
+    setSelectedPalette: Dispatch<SetStateAction<string>>
+}
+
+export type createItemsPanelProps = {
+    selectedPalette: string
 }
 

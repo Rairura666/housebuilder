@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from "react";   
+import { Dispatch, SetStateAction } from "react"   
+import { User } from "@supabase/supabase-js"
 
 export type canvasElement = {
         id: string,
@@ -49,3 +50,10 @@ export type createItemsPanelProps = {
     selectedPalette: string
 }
 
+export type navBarProps = {
+    user: User | null
+}
+
+export type mainLayoutProps = {
+    user: User | null
+}

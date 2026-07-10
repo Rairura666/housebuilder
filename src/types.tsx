@@ -15,6 +15,12 @@ export type elementGeneral = {
     palette: string,
 }
 
+export type Profile = {
+    id: string,
+    avatar_path: string | null,
+    username: string | null,
+}
+
 export type drawingCanvasProps = {
         canvasRef: React.RefObject<HTMLDivElement | null>,
         canvasElements: canvasElement[],
@@ -56,4 +62,14 @@ export type navBarProps = {
 
 export type mainLayoutProps = {
     user: User | null
+}
+
+export type profilePageProps = {
+    user: User | null
+}
+
+export type profileUserInfoProps = {
+    user: User | null,
+    profile: Profile | null,
+    setProfile: Dispatch<SetStateAction<Profile | null>>
 }

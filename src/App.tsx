@@ -37,7 +37,7 @@ function App() {
           
           <Route path="/profile" element={
               user ?
-              <ProfilePage/>
+              <ProfilePage user={user}/>
               : <SignInPage />
             } />
 

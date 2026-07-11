@@ -55,7 +55,7 @@ export const ProfilePage = ({user}:profilePageProps) => {
                 >Log out</button>
             </div>
             <div className="profileProjectsList">
-                <ProfileProjectsList />   
+                <ProfileProjectsList user={user}/>   
             </div>
         </div>
     )

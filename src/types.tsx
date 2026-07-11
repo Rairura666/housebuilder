@@ -21,6 +21,13 @@ export type Profile = {
     username: string | null,
 }
 
+export type Project = {
+    id: string, 
+    user_id: string,
+    project_name: string,
+    canvas_elements: canvasElement[]
+}
+
 export type drawingCanvasProps = {
         canvasRef: React.RefObject<HTMLDivElement | null>,
         canvasElements: canvasElement[],
@@ -76,5 +83,13 @@ export type profileUserInfoProps = {
 }
 
 export type createPageProps = {
-       user: User | null,
+    user: User | null,
+}
+
+export type profileProjectsList = {
+    user: User | null,
+}
+
+export type projectPreviewProps = {
+    project: Project,
 }

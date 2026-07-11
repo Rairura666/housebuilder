@@ -4,7 +4,7 @@ import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
-import {canvasElement, createPageProps } from "../types"
+import {canvasElement, createPageProps, Project } from "../types"
 import {palettes, categories} from "../constants"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
@@ -44,8 +44,7 @@ const testCanvas2: canvasElement[] = [
 
 export const CreatePage = ({user}: createPageProps) => {
 
-    const [projectId, setProjectId] = useState<string | null>(null)
-    const [projectName, setProjectName] = useState<string | null>(null)
+    const [project, setProject] = useState<Project>()
 
 
     const [selectedPalette, setSelectedPalette] = useState<string>(palettes.yellowBlue)
@@ -174,12 +173,11 @@ export const CreatePage = ({user}: createPageProps) => {
     const saveProject = async() => {
         if(!user) return
 
-        if(!projectId) {
+        if(!project) {
             await supabase
             .from("projects")
             .insert({
                 user_id: user.id,
-                project_name: projectName,
                 canvas_elements: canvasElements
             })  
         }
@@ -187,10 +185,10 @@ export const CreatePage = ({user}: createPageProps) => {
             await supabase
             .from("projects")
             .update({
-                project_name: projectName,
+                project_name: project.project_name,
                 canvas_elements: canvasElements
             })
-            .eq("id", projectId)
+            .eq("id", project.id)
         }
     }
 
@@ -219,13 +217,16 @@ export const CreatePage = ({user}: createPageProps) => {
                     <div className="leftControlPanel">
                         <CreateItemsPanel selectedPalette={selectedPalette}/>
                     </div>
-
+                        
                     <div className="canvasWrapper" >
-                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={testCanvas2} setCanvasElements={setCanvasElements} />
+                       
+                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} />
                     </div>
 
                     <div className="rightControlPanel">
                         <CreatePalettePanel setSelectedPalette={setSelectedPalette} />
+
+
                         <div className="createControlPanel">
                             <CreateControlPanel undo={undo} redo={redo} saveProject={saveProject} />                    
                         </div>

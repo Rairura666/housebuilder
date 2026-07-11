@@ -1,7 +1,17 @@
+import { ProjectPreview } from "./ProjectPrewiew"
+import "../Css/ProjectList.css"
+
 export const ProfileProjectsList = () => {
     return(
-        <>
- i'm a ProfileProjectsList
-        </>
+        <div className="profileProjectList">
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        <ProjectPreview/>
+        </div>
     )
 }

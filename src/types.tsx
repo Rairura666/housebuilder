@@ -32,7 +32,8 @@ export type drawingCanvasProps = {
 
 export type createControlPanelProps = {
     undo: () => void,
-    redo: () => void 
+    redo: () => void,
+    saveProject: () => void, 
 }
 
 export type canvasElementProps = {
@@ -72,4 +73,8 @@ export type profileUserInfoProps = {
     user: User | null,
     profile: Profile | null,
     setProfile: Dispatch<SetStateAction<Profile | null>>
+}
+
+export type createPageProps = {
+       user: User | null,
 }

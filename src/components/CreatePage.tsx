@@ -4,21 +4,55 @@ import { CreateControlPanel } from "./CreateControlPanel"
 import { CreatePalettePanel } from "./CreatePalettePanel"
 import { DrawingCanvas } from "./DrawingCanvas"
 import "../Css/CreatePage.css"
-import {canvasElement } from "../types"
+import {canvasElement, createPageProps } from "../types"
 import {palettes, categories} from "../constants"
 import type {DragEndEvent, DragStartEvent} from "@dnd-kit/core"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import {CANVAS_PIXEL_SIZE} from "../constants"
 import { ElementPreviewView } from "./ElementPreviewView"
+import { supabase } from "../../utils/supabase"
+
+const testCanvas: canvasElement[] = [
+    {   id: crypto.randomUUID(),
+        category: categories.door,
+        palette: palettes.blackWhite,
+        x: 15,
+        y: 30},
+    {        
+        id:  crypto.randomUUID(),
+        category: categories.window,
+        palette: palettes.redGreen,
+        x: 100,
+        y: 130}
+]
+
+const testCanvas2: canvasElement[] = [
+    {   id: crypto.randomUUID(),
+        category: categories.roof,
+        palette: palettes.redGreen,
+        x: 15,
+        y: 130},
+    {        
+        id:  crypto.randomUUID(),
+        category: categories.base,
+        palette: palettes.yellowBlue,
+        x: 100,
+        y: 15}
+]
 
 
-export const CreatePage = () => {
+
+export const CreatePage = ({user}: createPageProps) => {
+
+    const [projectId, setProjectId] = useState<string | null>(null)
+    const [projectName, setProjectName] = useState<string | null>(null)
+
 
     const [selectedPalette, setSelectedPalette] = useState<string>(palettes.yellowBlue)
   
     const [dragOffset, setDragOffset] = useState({x:0, y:0})
 
-    const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])
+    const [canvasElements, setCanvasElements] = useState<canvasElement[]>(testCanvas2)
 
     const [history, setHistory] = useState<canvasElement[][]>([])
     const [historyIndex, setHistoryIndex] = useState<number>(-1)
@@ -137,6 +171,30 @@ export const CreatePage = () => {
         setCanvasElements(history[historyIndex + 1])
     }
 
+    const saveProject = async() => {
+        if(!user) return
+
+        if(!projectId) {
+            await supabase
+            .from("projects")
+            .insert({
+                user_id: user.id,
+                project_name: projectName,
+                canvas_elements: canvasElements
+            })  
+        }
+        else {
+            await supabase
+            .from("projects")
+            .update({
+                project_name: projectName,
+                canvas_elements: canvasElements
+            })
+            .eq("id", projectId)
+        }
+    }
+
+
 
     // const addElementOnCanvas = (elem: canvasElement) => {
 
@@ -163,13 +221,13 @@ export const CreatePage = () => {
                     </div>
 
                     <div className="canvasWrapper" >
-                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} />
+                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId}  changeHistory={changeHistory} canvasElements={testCanvas2} setCanvasElements={setCanvasElements} />
                     </div>
 
                     <div className="rightControlPanel">
                         <CreatePalettePanel setSelectedPalette={setSelectedPalette} />
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} />                    
+                            <CreateControlPanel undo={undo} redo={redo} saveProject={saveProject} />                    
                         </div>
                     </div>
                 </div>

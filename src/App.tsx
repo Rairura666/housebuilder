@@ -31,7 +31,7 @@ function App() {
 
           <Route path="/create" element={
               user ?
-              <CreatePage/>
+              <CreatePage user={user}/>
               : <SignInPage />
           } />
           

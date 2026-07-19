@@ -1,0 +1,94 @@
+import { Dispatch, SetStateAction } from "react"   
+import { User } from "@supabase/supabase-js"
+
+export type canvasElement = {
+        id: string,
+        category: string,
+        palette: string,
+        x: number,
+        y: number
+    }
+
+export type elementGeneral = {
+    id: string,
+    category: string,
+    palette: string,
+}
+
+export type Profile = {
+    id: string,
+    avatar_path: string | null,
+    username: string | null,
+}
+
+export type Project = {
+    id: string, 
+    user_id: string,
+    project_name: string,
+    canvas_elements: canvasElement[]
+}
+
+export type drawingCanvasProps = {
+        canvasRef: React.RefObject<HTMLDivElement | null>,
+        canvasElements: canvasElement[],
+        setCanvasElements:  Dispatch<SetStateAction<canvasElement[]>>, 
+        changeHistory: (newState: canvasElement[]) => void,
+        setSelectedElemId: Dispatch<SetStateAction<string | null>>,
+        selectedElemId: string | null
+    }
+
+export type createControlPanelProps = {
+    undo: () => void,
+    redo: () => void,
+    saveProject: () => void, 
+}
+
+export type canvasElementProps = {
+    selected: boolean,
+    elem: canvasElement
+}
+
+export type elementPreviewProps = {
+    elemGeneral: elementGeneral
+}
+
+export type elementPreviewViewProps = {
+    elemGeneral: elementGeneral
+}
+
+export type createPaletteProps = {
+    setSelectedPalette: Dispatch<SetStateAction<string>>
+}
+
+export type createItemsPanelProps = {
+    selectedPalette: string
+}
+
+export type navBarProps = {
+    user: User | null
+}
+
+export type mainLayoutProps = {
+    user: User | null
+}
+
+export type profilePageProps = {
+    user: User | null
+}
+
+export type profileUserInfoProps = {
+    user: User | null,
+    profile: Profile | null
+}
+
+export type createPageProps = {
+    user: User | null,
+}
+
+export type profileProjectsList = {
+    user: User | null,
+}
+
+export type projectPreviewProps = {
+    project: Project,
+}

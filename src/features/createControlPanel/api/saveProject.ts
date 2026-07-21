@@ -1,27 +1,33 @@
 import { canvasElement } from '../../../shared/types/types';
-import { User } from "@supabase/supabase-js"
 import { Project } from "../../../shared/types/types"
 import { supabase } from "../../../shared/api/supabase"
+import { User } from '@supabase/supabase-js';
 
-    
-export const saveProject = async(user: User | null, project: Project | undefined, canvasElements: canvasElement[]) => {
-        if(!user) return
+export const saveProject = async (user: User | null, project: Project | null, canvasElements: canvasElement[]) => {
 
-        if(!project) {
-            await supabase
+    if (!user) return
+
+    if (!project) {
+        await supabase
             .from("projects")
             .insert({
                 user_id: user.id,
                 canvas_elements: canvasElements
-            })  
-        }
-        else {
-            await supabase
+            })
+    }
+    else {
+        const { data, error } = await supabase
             .from("projects")
             .update({
                 project_name: project.project_name,
                 canvas_elements: canvasElements
             })
             .eq("id", project.id)
+
+        if (error) {
+            console.error(error)
+            return
         }
+
     }
+}

@@ -41,6 +41,7 @@ export type createControlPanelProps = {
     undo: () => void,
     redo: () => void,
     saveProject: () => void, 
+    setIsModalOpened: Dispatch<SetStateAction<boolean>>,
 }
 
 export type canvasElementProps = {
@@ -64,31 +65,25 @@ export type createItemsPanelProps = {
     selectedPalette: string
 }
 
-export type navBarProps = {
-    user: User | null
-}
-
-export type mainLayoutProps = {
-    user: User | null
-}
-
-export type profilePageProps = {
-    user: User | null
-}
-
 export type profileUserInfoProps = {
-    user: User | null,
     profile: Profile | null
-}
-
-export type createPageProps = {
-    user: User | null,
-}
-
-export type profileProjectsList = {
-    user: User | null,
 }
 
 export type projectPreviewProps = {
     project: Project,
+    onProjectSelect: (project: Project)=> void
+}
+
+export type modalProjectsListProps = {
+    closeModal: () => void,
+    onProjectSelect: (project: Project) => void
+}
+
+export type ProfileProjectsListProps = {
+    onProjectSelect: (project: Project)=> void
+}
+
+export interface AuthContextType {
+    user: User | null,
+    signOut: () => Promise<void>
 }

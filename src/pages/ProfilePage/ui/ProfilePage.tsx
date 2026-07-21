@@ -1,23 +1,36 @@
 import { ProfileUserInfo } from "../../../widgets/ProfileUserInfo"
-import { ProfileProjectsList } from "../../../features/ProfileProjectsList"
+import { ProfileProjectsList } from "../../../features/ProfileProjectsList/ui/ProfileProjectsList"
 import "../../../app/styles/ProfilePage.css"
-import { profilePageProps } from "../../../shared/types/types"
 import { useProfile } from "../../../entities/profile/model/useProfile"
+import { useAuth } from "../../../shared/auth/useAuth"
+import { useNavigate } from "react-router-dom"
+import { Project } from "../../../shared/types/types"
 
-export const ProfilePage = ({user}:profilePageProps) => {
-    
-const {profile, handleLogOut} = useProfile(user)
-    
-    return(
+export const ProfilePage = () => {
+
+    const navigate = useNavigate()
+
+    const { user } = useAuth()
+    const { profile, handleLogOut } = useProfile(user)
+
+    const handleProjectSelect = (project: Project) => {
+        navigate("/create", {
+            state: {
+                project: project,
+            },
+        })
+    }
+
+    return (
         <div className="profilePageWrapper">
             <div className="profileUserHeader">
-                <ProfileUserInfo user={user} profile={profile}/>
+                <ProfileUserInfo profile={profile} />
                 <button
-                onClick={handleLogOut}
+                    onClick={handleLogOut}
                 >Log out</button>
             </div>
             <div className="profileProjectsList">
-                <ProfileProjectsList user={user}/>   
+                <ProfileProjectsList onProjectSelect={handleProjectSelect} />
             </div>
         </div>
     )

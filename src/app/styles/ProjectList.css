@@ -7,4 +7,5 @@
 .projectPreview {
   aspect-ratio: 3;
   background-color: cornflowerblue;
+  min-width: 0;
 }/*# sourceMappingURL=ProjectList.css.map */

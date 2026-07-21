@@ -2,8 +2,11 @@ import {useEffect, useRef, useState } from "react"
 import { profileUserInfoProps } from "../shared/types/types"
 import { supabase } from "../shared/api/supabase"
 import avatarPlaceholder from "../shared/assets/pfp_placeholder.jpg" 
+import { useAuth } from "../shared/auth/useAuth"
 
-export const ProfileUserInfo = ({user, profile}:profileUserInfoProps) => {
+export const ProfileUserInfo = ({ profile}:profileUserInfoProps) => {
+    
+    const {user} = useAuth()
     
     const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
 

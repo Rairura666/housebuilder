@@ -1,0 +1,25 @@
+.modalProjectsListWrapper {
+  position: fixed;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  box-sizing: border-box;
+  padding: 2rem 20%;
+  height: 100%;
+}
+
+.modalProjectsListContent {
+  width: min(100%, 1000px);
+  max-height: 80%;
+  overflow-y: auto;
+  background: white;
+  padding: 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}/*# sourceMappingURL=ModalProjectsList.css.map */

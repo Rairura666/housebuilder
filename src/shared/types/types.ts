@@ -71,7 +71,8 @@ export type profileUserInfoProps = {
 
 export type projectPreviewProps = {
     project: Project,
-    onProjectSelect: (project: Project)=> void
+    onProjectSelect: (project: Project)=> void,
+    deleteProject: (projectId: string) => void,
 }
 
 export type modalProjectsListProps = {

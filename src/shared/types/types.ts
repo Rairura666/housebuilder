@@ -25,7 +25,8 @@ export type Project = {
     id: string, 
     user_id: string,
     project_name: string,
-    canvas_elements: canvasElement[]
+    canvas_elements: canvasElement[],
+    project_preview_path: string,
 }
 
 export type drawingCanvasProps = {
@@ -40,7 +41,7 @@ export type drawingCanvasProps = {
 export type createControlPanelProps = {
     undo: () => void,
     redo: () => void,
-    saveProject: () => void, 
+    handleSaveProject: () => void, 
     setIsModalOpened: Dispatch<SetStateAction<boolean>>,
 }
 

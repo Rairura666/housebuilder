@@ -13,42 +13,10 @@ import { useDrag } from "../model/useDrag"
 import { saveProject } from "../../../features/createControlPanel/api/saveProject"
 import { useAuth } from "../../../shared/auth/useAuth"
 import { ModalProjectsList } from "../../../widgets/ModalProjectsList/ui/ModalProjectsList"
-import { useLocation } from "react-router-dom";
-
-
-const testCanvas: canvasElement[] = [
-    {
-        id: crypto.randomUUID(),
-        category: categories.door,
-        palette: palettes.blackWhite,
-        x: 15,
-        y: 30
-    },
-    {
-        id: crypto.randomUUID(),
-        category: categories.window,
-        palette: palettes.redGreen,
-        x: 100,
-        y: 130
-    }
-]
-
-const testCanvas2: canvasElement[] = [
-    {
-        id: crypto.randomUUID(),
-        category: categories.roof,
-        palette: palettes.redGreen,
-        x: 15,
-        y: 130
-    },
-    {
-        id: crypto.randomUUID(),
-        category: categories.base,
-        palette: palettes.yellowBlue,
-        x: 100,
-        y: 15
-    }
-]
+import { useLocation } from "react-router-dom"
+import { toPng } from 'html-to-image'
+import { savePreview } from "../../../features/createControlPanel/api/savePreview"
+import { updateProjectPreviewURL } from "../../../features/createControlPanel/api/updateProjectPreviewURL"
 
 export const CreatePage = () => {
 
@@ -80,6 +48,42 @@ export const CreatePage = () => {
         setIsModalOpened(false)
     }
 
+
+    const handleSaveProject = async () => {
+
+        const savedProject = await saveProject(
+            user,
+            project,
+            canvasElements
+        )
+        if (!savedProject) {
+
+            console.log("!savedProject")
+            return
+        }
+        setProject(savedProject)
+
+        if (!canvasRef.current) {
+            console.log("!canvasRef.current")
+            return
+        }
+
+        const preview = await toPng(canvasRef.current, {
+            pixelRatio: 2
+        })
+
+        const response = await fetch(preview)
+        const blobPreview = await (response).blob()
+
+        const previewFilePath = await savePreview(user, savedProject, blobPreview)
+
+        if (!previewFilePath) {
+            console.log("!previewFilePath")
+            return
+        }
+
+        await updateProjectPreviewURL(savedProject, previewFilePath)
+    }
 
     useEffect(() => {
         const projectFromProfile = location.state?.project
@@ -117,7 +121,7 @@ export const CreatePage = () => {
 
 
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} saveProject={() => saveProject(user, project, canvasElements)} setIsModalOpened={setIsModalOpened} />
+                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveProject} setIsModalOpened={setIsModalOpened} />
                         </div>
                     </div>
                 </div>

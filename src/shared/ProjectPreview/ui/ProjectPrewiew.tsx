@@ -1,17 +1,35 @@
 import { projectPreviewProps } from "../../types/types"
 import "../../../app/styles/ProjectPreview.css"
+import { useEffect, useState } from "react"
+import { getPreviewURL } from "../getPreviewURL"
 
 export const ProjectPreview = ({ project, onProjectSelect, deleteProject }: projectPreviewProps) => {
 
-    return (<div className="projectPreviewWrapper">
-        <button 
-        className="projectPreview" 
-        onClick={()=>onProjectSelect(project)}> 
-        I'm a {project.project_name}</button>
+    const [projectPreviewURL, setProjectPreviewURL] = useState<string | null>(null)
 
-        <button 
-        className="deleteProjectButton"
-        onClick={()=>deleteProject(project.id)}
+
+    useEffect(() => {
+        if (!project.project_preview_path)
+            return
+
+        getPreviewURL(project.project_preview_path).then(setProjectPreviewURL)
+        
+    }, [project.project_preview_path])
+
+    return (<div className="projectPreviewWrapper">
+        <button
+            className="projectPreview"
+            onClick={() => onProjectSelect(project)}>
+            {projectPreviewURL ?
+                <img src={projectPreviewURL}></img>
+                : <div>Empty project</div>
+            }
+
+        </button>
+
+        <button
+            className="deleteProjectButton"
+            onClick={() => deleteProject(project.id)}
         >Delete</button>
     </div>)
 }

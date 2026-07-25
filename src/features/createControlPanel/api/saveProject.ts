@@ -3,7 +3,7 @@ import { Project } from "../../../shared/types/types"
 import { supabase } from "../../../shared/api/supabase"
 import { User } from '@supabase/supabase-js';
 
-export const saveProject = async (user: User | null, project: Project | null, canvasElements: canvasElement[]) => {
+export const saveProject = async (user: User | null, project: Project | null, canvasElements: canvasElement[], projectName: string) => {
 
     if (!user) return
 
@@ -12,7 +12,8 @@ export const saveProject = async (user: User | null, project: Project | null, ca
             .from("projects")
             .insert({
                 user_id: user.id,
-                canvas_elements: canvasElements
+                canvas_elements: canvasElements,
+                project_name: projectName
             })
             .select()
             .single()

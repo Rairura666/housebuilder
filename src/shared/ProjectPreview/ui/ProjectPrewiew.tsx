@@ -31,5 +31,7 @@ export const ProjectPreview = ({ project, onProjectSelect, deleteProject }: proj
             className="deleteProjectButton"
             onClick={() => deleteProject(project.id)}
         >Delete</button>
+
+        <span className="projectPreviewName">{project.project_name}</span>
     </div>)
 }

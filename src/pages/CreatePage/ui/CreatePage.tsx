@@ -17,12 +17,16 @@ import { useLocation } from "react-router-dom"
 import { toPng } from 'html-to-image'
 import { savePreview } from "../../../features/createControlPanel/api/savePreview"
 import { updateProjectPreviewURL } from "../../../features/createControlPanel/api/updateProjectPreviewURL"
+import { ModalSaveProject } from "../../../widgets/modalSaveProject/ui/ModalSaveProject"
+
 
 export const CreatePage = () => {
 
     const { user } = useAuth()
 
-    const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
+    const [isModalProjectsListOpened, setIsModalProjectsListOpened] = useState<boolean>(false)
+
+    const [isModalSaveProjectOpened, setIsModalSaveProjectOpened] = useState<boolean>(false)
 
     const canvasRef = useRef<HTMLDivElement>(null)
 
@@ -45,17 +49,19 @@ export const CreatePage = () => {
 
         setCanvasElements(project.canvas_elements)
 
-        setIsModalOpened(false)
+        setIsModalProjectsListOpened(false)
     }
 
 
-    const handleSaveProject = async () => {
+    const handleSaveProject = async (projectName: string) => {
 
         const savedProject = await saveProject(
             user,
             project,
-            canvasElements
+            canvasElements,
+            projectName
         )
+
         if (!savedProject) {
 
             console.log("!savedProject")
@@ -93,14 +99,29 @@ export const CreatePage = () => {
         }
     }, [])
 
+    const handleSaveButtonClick = () => {
+        if (!project) {
+            setIsModalSaveProjectOpened(true)
+        } else {
+            handleSaveProject(project.project_name)
+        }
+    }
+
 
     return (
         <div className="createPageWrapper">
-            {isModalOpened &&
+            {isModalProjectsListOpened &&
                 <ModalProjectsList
-                    closeModal={() => setIsModalOpened(false)}
+                    closeModal={() => setIsModalProjectsListOpened(false)}
                     onProjectSelect={handleOpenProject}
                 />}
+
+            {isModalSaveProjectOpened && !project &&
+                <ModalSaveProject
+                    closeModal={() => setIsModalSaveProjectOpened(false)}
+                    saveProject={handleSaveProject}
+                />
+            }
 
             <DndContext
                 onDragEnd={handleDragEnd}
@@ -121,7 +142,7 @@ export const CreatePage = () => {
 
 
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveProject} setIsModalOpened={setIsModalOpened} />
+                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveButtonClick} setIsModalOpened={setIsModalProjectsListOpened} />
                         </div>
                     </div>
                 </div>

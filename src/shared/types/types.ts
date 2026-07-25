@@ -89,3 +89,8 @@ export interface AuthContextType {
     user: User | null,
     signOut: () => Promise<void>
 }
+
+export type modalSaveProjectProps = {
+    closeModal: () => void,
+    saveProject: (projectName: string) => void
+}

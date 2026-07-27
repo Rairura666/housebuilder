@@ -1,4 +1,4 @@
-import { ProfileProjectsList } from "../../../features/ProfileProjectsList/ui/ProjectsList"
+import { ProjectsList } from "../../../features/ProfileProjectsList/ui/ProjectsList"
 import { modalProjectsListProps } from "../../../shared/types/types"
 import "../../../app/styles/ModalProjectsList.css"
 
@@ -6,7 +6,7 @@ export const ModalProjectsList = ({ closeModal, onProjectSelect }: modalProjects
     return (<>
         <div className="modalProjectsListWrapper">
             <div className="modalProjectsListContent">
-                <ProfileProjectsList onProjectSelect={onProjectSelect}/>
+                <ProjectsList onProjectSelect={onProjectSelect}/>
                 <button onClick={closeModal}>Close</button>
             </div>
         </div>

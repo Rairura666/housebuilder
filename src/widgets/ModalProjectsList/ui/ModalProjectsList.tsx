@@ -1,4 +1,4 @@
-import { ProfileProjectsList } from "../../../features/ProfileProjectsList/ui/ProfileProjectsList"
+import { ProfileProjectsList } from "../../../features/ProfileProjectsList/ui/ProjectsList"
 import { modalProjectsListProps } from "../../../shared/types/types"
 import "../../../app/styles/ModalProjectsList.css"
 

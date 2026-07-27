@@ -1,6 +1,6 @@
-import { ProfileUserInfo } from "../../../widgets/ProfileUserInfo"
-import { ProfileProjectsList } from "../../../features/ProfileProjectsList/ui/ProfileProjectsList"
-import "../../../app/styles/ProfilePage.css"
+import { ProfileUserInfo } from "../../../widgets/ProfileUserInfo/ui/ProfileUserInfo"
+import { ProjectsList } from "../../../features/ProfileProjectsList/ui/ProjectsList"
+import "./ProfilePage.css"
 import { useProfile } from "../../../entities/profile/model/useProfile"
 import { useAuth } from "../../../shared/auth/useAuth"
 import { useNavigate } from "react-router-dom"
@@ -23,14 +23,21 @@ export const ProfilePage = () => {
 
     return (
         <div className="profilePageWrapper">
-            <div className="profileUserHeader">
+            <div className="profileUserPanel">
                 <ProfileUserInfo profile={profile} />
-                <button
-                    onClick={handleLogOut}
-                >Log out</button>
+                <div className="profileUserControlBtns">
+                    <button
+                        className="">
+                        Settings</button>
+
+                    <button
+                        onClick={handleLogOut}
+                    >Log out</button>
+                </div>
             </div>
             <div className="profileProjectsList">
-                <ProfileProjectsList onProjectSelect={handleProjectSelect} />
+                <h3>Your projects</h3>
+                <ProjectsList onProjectSelect={handleProjectSelect} />
             </div>
         </div>
     )

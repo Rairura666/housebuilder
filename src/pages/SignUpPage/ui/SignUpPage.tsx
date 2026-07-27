@@ -4,7 +4,7 @@ import "./SignUpPage.css"
 
 export const SignUpPage = () => {
 
-    const { email, setEmail, password, setPassword, handleSignUpSubmit } = useSignup()
+    const { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit } = useSignup()
 
     return (<>
         <div className="signUpWrapper">
@@ -18,8 +18,8 @@ export const SignUpPage = () => {
 
                 <input
                     type='text'
-                    value={""}
-                    onChange={()=>{}}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     placeholder='Username'
                 />
 

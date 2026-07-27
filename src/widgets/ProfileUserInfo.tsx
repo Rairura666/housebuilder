@@ -70,7 +70,7 @@ export const ProfileUserInfo = ({ profile}:profileUserInfoProps) => {
     return(
         <>
         <div className="profileUserInfo">
-            <p>{user?.email}</p>
+            <p>{user?.user_metadata.username}</p>
             <div className="userAvatarPic">
                 {
                 avatarUrl ?

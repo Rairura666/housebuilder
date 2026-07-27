@@ -1,15 +1,22 @@
 import { useState } from "react"
 import { supabase } from "../../../shared/api/supabase"
+import { useNavigate } from "react-router-dom"
 
 export const useSignup = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [username, setUsername] = useState<string>("")
 
     const handleSignUpSubmit = async () => {
-
+        const navigate = useNavigate()
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                data: {
+                    username,
+                },
+            },
         })
 
         if (error) {
@@ -17,11 +24,11 @@ export const useSignup = () => {
             return
         }
 
-        console.log("Signed up")
         setPassword("")
+        navigate("/create")
     }
 
-    return { email, setEmail, password, setPassword, handleSignUpSubmit }
+    return { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit }
 }
 
 

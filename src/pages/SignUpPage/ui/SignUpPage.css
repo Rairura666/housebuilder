@@ -1,0 +1,27 @@
+.signUpWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.signUpContent {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 2rem;
+  width: 50%;
+  gap: 1rem;
+  margin-top: 10%;
+  align-items: center;
+}
+
+.signInRedirectToSignIn {
+  display: flex;
+  gap: 1rem;
+}
+.signInRedirectToSignIn a {
+  white-space: none;
+}
+
+button {
+  width: 30%;
+}/*# sourceMappingURL=SignUpPage.css.map */

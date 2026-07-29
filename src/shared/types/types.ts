@@ -1,13 +1,14 @@
-import { Dispatch, SetStateAction } from "react"   
+import { Dispatch, SetStateAction } from "react"
 import { User } from "@supabase/supabase-js"
 
+
 export type canvasElement = {
-        id: string,
-        category: string,
-        palette: string,
-        x: number,
-        y: number
-    }
+    id: string,
+    category: string,
+    palette: string,
+    x: number,
+    y: number
+}
 
 export type elementGeneral = {
     id: string,
@@ -22,7 +23,7 @@ export type Profile = {
 }
 
 export type Project = {
-    id: string, 
+    id: string,
     user_id: string,
     project_name: string,
     canvas_elements: canvasElement[],
@@ -30,18 +31,24 @@ export type Project = {
 }
 
 export type drawingCanvasProps = {
-        canvasRef: React.RefObject<HTMLDivElement | null>,
-        canvasElements: canvasElement[],
-        setCanvasElements:  Dispatch<SetStateAction<canvasElement[]>>, 
-        changeHistory: (newState: canvasElement[]) => void,
-        setSelectedElemId: Dispatch<SetStateAction<string | null>>,
-        selectedElemId: string | null
-    }
+    canvasRef: React.RefObject<HTMLDivElement | null>,
+    canvasElements: canvasElement[],
+    setCanvasElements: Dispatch<SetStateAction<canvasElement[]>>,
+    changeHistory: (newState: canvasElement[]) => void,
+    setSelectedElemId: Dispatch<SetStateAction<string | null>>,
+    selectedElemId: string | null,
+    isCanvasSelected: boolean,
+    setIsCanvasSelected: Dispatch<SetStateAction<boolean>>,
+    canvasWidth: number,
+    canvasHeight: number,
+    newCanvasWidth: number,
+    newCanvasHeight: number,
+}
 
 export type createControlPanelProps = {
     undo: () => void,
     redo: () => void,
-    handleSaveProject: () => void, 
+    handleSaveProject: () => void,
     setIsModalOpened: Dispatch<SetStateAction<boolean>>,
 }
 
@@ -72,7 +79,7 @@ export type profileUserInfoProps = {
 
 export type projectPreviewProps = {
     project: Project,
-    onProjectSelect: (project: Project)=> void,
+    onProjectSelect: (project: Project) => void,
     deleteProject: (projectId: string) => void,
 }
 
@@ -82,7 +89,7 @@ export type modalProjectsListProps = {
 }
 
 export type ProfileProjectsListProps = {
-    onProjectSelect: (project: Project)=> void
+    onProjectSelect: (project: Project) => void
 }
 
 export interface AuthContextType {

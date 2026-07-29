@@ -3,9 +3,9 @@ import { CreateItemsPanel } from "../../../features/CreateItemsPanel/ui/CreateIt
 import { CreateControlPanel } from "../../../features/createControlPanel/ui/CreateControlPanel"
 import { CreatePalettePanel } from "../../../features/CreatePalettePanel"
 import { DrawingCanvas } from "../../../widgets/DrawingCanvas/ui/DrawingCanvas"
-import "../../../app/styles/CreatePage.css"
+import "./CreatePage.css"
 import { canvasElement, Project } from "../../../shared/types/types"
-import { palettes, categories } from "../../../shared/config/constants"
+import { CANVAS_PIXEL_SIZE, palettes } from "../../../shared/config/constants"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
 import { ElementPreviewView } from "../../../shared/ElementPreviewView"
 import { useHistory } from "../model/useHistory"
@@ -27,6 +27,8 @@ export const CreatePage = () => {
     const [isModalProjectsListOpened, setIsModalProjectsListOpened] = useState<boolean>(false)
 
     const [isModalSaveProjectOpened, setIsModalSaveProjectOpened] = useState<boolean>(false)
+
+    const [isCanvasSelected, setIsCanvasSelected] = useState<boolean>(false)
 
     const canvasRef = useRef<HTMLDivElement>(null)
 
@@ -107,6 +109,26 @@ export const CreatePage = () => {
         }
     }
 
+    const [canvasWidth, setCanvasWidth] = useState<number>(20)
+    const [canvasHeight, setCanvasHeight] = useState<number>(20)
+
+    const [newCanvasWidth, setNewCanvasWidth] = useState<number>(canvasWidth)
+    const [newCanvasHeight, setNewCanvasHeight] = useState<number>(canvasHeight)
+
+    const confirmResize = (width: number, height: number) => {
+        if(width>100 || height >100)
+            return
+        setCanvasWidth(width)
+        setCanvasHeight(height)
+        setIsCanvasSelected(false)
+    }
+
+    const cancelResize = () => {
+        setNewCanvasWidth(canvasWidth)
+        setNewCanvasHeight(canvasHeight)
+        setIsCanvasSelected(false)
+    }
+
 
     return (
         <div className="createPageWrapper">
@@ -133,8 +155,12 @@ export const CreatePage = () => {
                     </div>
 
                     <div className="canvasWrapper" >
+                        <div className="drawingCanvasComponentWrapper">
+                            <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId} changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} isCanvasSelected={isCanvasSelected} setIsCanvasSelected={setIsCanvasSelected}
+                                canvasWidth={canvasWidth} canvasHeight={canvasHeight}
+                                newCanvasWidth={newCanvasWidth} newCanvasHeight={newCanvasHeight} />
+                        </div>
 
-                        <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId} changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} />
                     </div>
 
                     <div className="rightControlPanel">
@@ -145,6 +171,48 @@ export const CreatePage = () => {
                             <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveButtonClick} setIsModalOpened={setIsModalProjectsListOpened} />
                         </div>
                     </div>
+                </div>
+
+
+                <div className="projectStatePanel">
+                    <div className="projectNameInfo">
+                        PROJECT NAME:
+                        {project ?
+                            <span> {project.project_name} </span>
+                            : <span> NEW PROJECT </span>}
+                    </div>
+                    <div className="canvasSizeInfo">
+                        <span>
+                            CANVAS SIZE:
+                            {isCanvasSelected ?
+
+                                <input className="canvasSizeInput"
+                                    value={newCanvasWidth}
+                                    onChange={(e) => setNewCanvasWidth(Math.floor(Number(e.target.value)))}
+                                ></input>
+                                : <span
+                                    className="canvasSizeNumber"
+                                >{canvasWidth}</span>}
+                            х
+                            {isCanvasSelected ?
+                                <input className="canvasSizeInput"
+                                    value={newCanvasHeight}
+                                    onChange={(e) => setNewCanvasHeight(Math.floor(Number(e.target.value)))}
+                                ></input>
+                                : <span className="canvasSizeNumber">{canvasHeight}</span>}
+                        </span>
+
+                        {isCanvasSelected ?
+                            <>
+                            <span className="maxCanvasSize">MAX: 100</span>
+                                <button onClick={() => confirmResize(newCanvasWidth, newCanvasHeight)}>✔</button>
+
+                                <button onClick={() => cancelResize()}>✖</button>
+                            </>
+                            : <button onClick={() => setIsCanvasSelected(true)}>▶</button>
+                        }
+                    </div>
+
                 </div>
                 <DragOverlay dropAnimation={null}>
                     {activeDrag && (

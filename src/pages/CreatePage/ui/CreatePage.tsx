@@ -44,10 +44,14 @@ export const CreatePage = () => {
     const [selectedPalette, setSelectedPalette] = useState<string>(palettes.yellowBlue)
     const [selectedElemId, setSelectedElemId] = useState<string | null>(null)
 
-    const handleOpenProject = (
-        project: Project) => {
+    const handleOpenProject = (project: Project) => {
 
         setProject(project)
+
+        setCanvasHeight(project.project_height)
+        setCanvasWidth(project.project_width)
+        setNewCanvasHeight(project.project_height)
+        setNewCanvasWidth(project.project_width)
 
         setCanvasElements(project.canvas_elements)
 
@@ -61,7 +65,9 @@ export const CreatePage = () => {
             user,
             project,
             canvasElements,
-            projectName
+            projectName,
+            newCanvasWidth,
+            newCanvasHeight
         )
 
         if (!savedProject) {

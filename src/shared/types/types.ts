@@ -28,6 +28,8 @@ export type Project = {
     project_name: string,
     canvas_elements: canvasElement[],
     project_preview_path: string,
+    project_width: number,
+    project_height: number,
 }
 
 export type drawingCanvasProps = {

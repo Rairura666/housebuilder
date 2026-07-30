@@ -18,11 +18,16 @@ import { toPng } from 'html-to-image'
 import { savePreview } from "../../../features/createControlPanel/api/savePreview"
 import { updateProjectPreviewURL } from "../../../features/createControlPanel/api/updateProjectPreviewURL"
 import { ModalSaveProject } from "../../../widgets/modalSaveProject/ui/ModalSaveProject"
+import { ModalSaveUnsaved } from "../../../widgets/ModalSaveUnsaved/ui/ModalSaveUnsaved"
 
 
 export const CreatePage = () => {
 
     const { user } = useAuth()
+
+    const [isUnsaved, setIsUnsaved] = useState(false)
+
+    const [isModalSaveUnsavedOpened, setIsModalSaveUnsavedOpened] = useState<boolean>(false)
 
     const [isModalProjectsListOpened, setIsModalProjectsListOpened] = useState<boolean>(false)
 
@@ -34,8 +39,8 @@ export const CreatePage = () => {
 
     const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])
 
-    const { changeHistory, undo, redo } = useHistory(setCanvasElements)
-    const { handleDragStart, handleDragEnd, activeDrag } = useDrag(canvasRef, setCanvasElements)
+    const { changeHistory, undo, redo, resetHistory } = useHistory(setCanvasElements)
+    const { handleDragStart, handleDragEnd, activeDrag } = useDrag(canvasRef, setCanvasElements, setIsUnsaved)
 
     const location = useLocation()
 
@@ -107,26 +112,27 @@ export const CreatePage = () => {
         }
     }, [])
 
-    const handleSaveButtonClick = () => {
+    const handleSaveButtonClick = async() => {
         if (!project) {
             setIsModalSaveProjectOpened(true)
         } else {
-            handleSaveProject(project.project_name)
+            await handleSaveProject(project.project_name)
         }
     }
 
-    const [canvasWidth, setCanvasWidth] = useState<number>(20)
-    const [canvasHeight, setCanvasHeight] = useState<number>(20)
+    const [canvasWidth, setCanvasWidth] = useState<number>(30)
+    const [canvasHeight, setCanvasHeight] = useState<number>(30)
 
     const [newCanvasWidth, setNewCanvasWidth] = useState<number>(canvasWidth)
     const [newCanvasHeight, setNewCanvasHeight] = useState<number>(canvasHeight)
 
     const confirmResize = (width: number, height: number) => {
-        if(width>100 || height >100)
+        if (width > 100 || height > 100)
             return
         setCanvasWidth(width)
         setCanvasHeight(height)
         setIsCanvasSelected(false)
+        setIsUnsaved(true)
     }
 
     const cancelResize = () => {
@@ -135,9 +141,44 @@ export const CreatePage = () => {
         setIsCanvasSelected(false)
     }
 
+    const handleCreateNewProject = () => {
+
+        if (isUnsaved) {
+            setIsModalSaveUnsavedOpened(true)
+            return
+        }
+
+        createNewProject()
+    }
+
+    const createNewProject = () => {
+
+        setIsUnsaved(false)
+        setProject(null)
+        setCanvasElements([])
+
+        setCanvasWidth(30)
+        setCanvasHeight(30)
+        setNewCanvasWidth(30)
+        setNewCanvasHeight(30)
+
+        setSelectedElemId(null)
+        setSelectedPalette(palettes.yellowBlue)
+        setIsCanvasSelected(false)
+
+        resetHistory([])
+    }
 
     return (
         <div className="createPageWrapper">
+
+            {isModalSaveUnsavedOpened &&
+                <ModalSaveUnsaved
+                    closeModal={() => setIsModalSaveUnsavedOpened(false)}
+                    saveProject={async() => {await handleSaveButtonClick()}}
+                    createNewProject={createNewProject}
+                />}
+
             {isModalProjectsListOpened &&
                 <ModalProjectsList
                     closeModal={() => setIsModalProjectsListOpened(false)}
@@ -162,9 +203,9 @@ export const CreatePage = () => {
 
                     <div className="canvasWrapper" >
                         <div className="drawingCanvasComponentWrapper">
-                            <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId} changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements} isCanvasSelected={isCanvasSelected} setIsCanvasSelected={setIsCanvasSelected}
-                                canvasWidth={canvasWidth} canvasHeight={canvasHeight}
-                                newCanvasWidth={newCanvasWidth} newCanvasHeight={newCanvasHeight} />
+                            <DrawingCanvas canvasRef={canvasRef} setSelectedElemId={setSelectedElemId} selectedElemId={selectedElemId} changeHistory={changeHistory} canvasElements={canvasElements} setCanvasElements={setCanvasElements}
+                                newCanvasWidth={newCanvasWidth} newCanvasHeight={newCanvasHeight}
+                                setIsUnsaved={setIsUnsaved} />
                         </div>
 
                     </div>
@@ -174,7 +215,7 @@ export const CreatePage = () => {
 
 
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveButtonClick} setIsModalOpened={setIsModalProjectsListOpened} />
+                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveButtonClick} setIsModalOpened={setIsModalProjectsListOpened} handleCreateNewProject={handleCreateNewProject} />
                         </div>
                     </div>
                 </div>
@@ -210,7 +251,7 @@ export const CreatePage = () => {
 
                         {isCanvasSelected ?
                             <>
-                            <span className="maxCanvasSize">MAX: 100</span>
+                                <span className="maxCanvasSize">MAX: 100</span>
                                 <button onClick={() => confirmResize(newCanvasWidth, newCanvasHeight)}>✔</button>
 
                                 <button onClick={() => cancelResize()}>✖</button>

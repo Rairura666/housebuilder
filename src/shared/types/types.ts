@@ -39,12 +39,9 @@ export type drawingCanvasProps = {
     changeHistory: (newState: canvasElement[]) => void,
     setSelectedElemId: Dispatch<SetStateAction<string | null>>,
     selectedElemId: string | null,
-    isCanvasSelected: boolean,
-    setIsCanvasSelected: Dispatch<SetStateAction<boolean>>,
-    canvasWidth: number,
-    canvasHeight: number,
     newCanvasWidth: number,
     newCanvasHeight: number,
+    setIsUnsaved: Dispatch<SetStateAction<boolean>>
 }
 
 export type createControlPanelProps = {
@@ -52,6 +49,7 @@ export type createControlPanelProps = {
     redo: () => void,
     handleSaveProject: () => void,
     setIsModalOpened: Dispatch<SetStateAction<boolean>>,
+    handleCreateNewProject: () => void,
 }
 
 export type canvasElementProps = {
@@ -102,4 +100,10 @@ export interface AuthContextType {
 export type modalSaveProjectProps = {
     closeModal: () => void,
     saveProject: (projectName: string) => void
+}
+
+export type modalSaveUnsavedProps = {
+    closeModal: () => void,
+    saveProject: () => void, 
+    createNewProject: () => void,
 }

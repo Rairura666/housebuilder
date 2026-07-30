@@ -4,13 +4,13 @@ import { canvasElement } from "../../../shared/types/types"
 import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react"
 import { useHistory } from "./useHistory"
 
-export const useDrag = (canvasRef: RefObject<HTMLDivElement | null>, setCanvasElements: Dispatch<SetStateAction<canvasElement[]>>) => {
+export const useDrag = (canvasRef: RefObject<HTMLDivElement | null>, setCanvasElements: Dispatch<SetStateAction<canvasElement[]>>, setIsUnsaved: Dispatch<SetStateAction<boolean>>) => {
 
-    const [activeDrag, setActiveDrag] = useState<{generalElemId: string | number | null, category: string, palette: string} | null>(null)
+    const [activeDrag, setActiveDrag] = useState<{ generalElemId: string | number | null, category: string, palette: string } | null>(null)
 
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
 
-    const {changeHistory} = useHistory(setCanvasElements)
+    const { changeHistory } = useHistory(setCanvasElements)
 
     function handleDragStart(event: DragStartEvent) {
 
@@ -46,7 +46,8 @@ export const useDrag = (canvasRef: RefObject<HTMLDivElement | null>, setCanvasEl
 
         if (!canvasRef.current) return
 
-
+        setIsUnsaved(true)
+        
         const rect = canvasRef.current.getBoundingClientRect()
         const startEvent = event.activatorEvent as PointerEvent;
 
@@ -88,6 +89,6 @@ export const useDrag = (canvasRef: RefObject<HTMLDivElement | null>, setCanvasEl
         }
     }
 
-    return {handleDragStart, handleDragEnd, activeDrag}
+    return { handleDragStart, handleDragEnd, activeDrag }
 }
 

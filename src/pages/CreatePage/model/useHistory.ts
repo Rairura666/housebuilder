@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from "react"
 import { canvasElement } from "../../../shared/types/types"
 
 export const useHistory = (setCanvasElements: Dispatch<SetStateAction<canvasElement[]>>) => {
-    
+
     const [history, setHistory] = useState<canvasElement[][]>([])
     const [historyIndex, setHistoryIndex] = useState<number>(-1)
 
@@ -35,6 +35,10 @@ export const useHistory = (setCanvasElements: Dispatch<SetStateAction<canvasElem
         setCanvasElements(history[historyIndex + 1])
     }
 
+    const resetHistory = (initialState: canvasElement[]) => {
+        setHistory([initialState])
+        setHistoryIndex(0)
+    }
 
-    return {changeHistory, undo, redo}
+    return { changeHistory, undo, redo, resetHistory }
 }

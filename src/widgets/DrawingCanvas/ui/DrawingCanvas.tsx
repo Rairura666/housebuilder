@@ -6,9 +6,7 @@ import "../../../app/styles/DrawingCanvas.css"
 import { CANVAS_PIXEL_SIZE } from "../../../shared/config/constants"
 import Moveable from "react-moveable"
 
-
-export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory, isCanvasSelected, setIsCanvasSelected,canvasWidth, canvasHeight, newCanvasWidth, newCanvasHeight}: drawingCanvasProps) => {
-
+export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory, newCanvasWidth, newCanvasHeight, setIsUnsaved}: drawingCanvasProps) => {
 
     const { setNodeRef } = useDroppable({
         id: 'canvasId',
@@ -34,6 +32,7 @@ export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, ca
             )
 
             changeHistory(newState)
+            setIsUnsaved(true)
             return newState
         })
     }
@@ -65,17 +64,12 @@ export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, ca
 
     }, [selectedElemId, canvasElements])
 
-
     const setCanvasRef = (node: HTMLDivElement | null) => {
         setNodeRef(node)
         canvasRef.current = node
     }
 
-
-
     return (<>
-
-
         {/* <Moveable
             target={isCanvasSelected ? canvasRef.current : null}
             resizable={true}
@@ -125,6 +119,5 @@ export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, ca
                 </div>)}
         </div>
     </>
-
     )
 }

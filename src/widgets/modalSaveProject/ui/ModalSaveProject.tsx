@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { modalSaveProjectProps } from "../../../shared/types/types"
-import "../../../app/styles/ModalSaveProject.css"
+import "./ModalSaveProject.css"
 
 export const ModalSaveProject = ({ closeModal, saveProject }: modalSaveProjectProps) => {
 

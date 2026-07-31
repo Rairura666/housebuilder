@@ -31,7 +31,7 @@ export const saveProject = async (user: User | null, project: Project | null, ca
         const { data, error } = await supabase
             .from("projects")
             .update({
-                project_name: project.project_name,
+                project_name: projectName,
                 canvas_elements: canvasElements,
                 project_width: projectWidth,
                 project_height: projectHeight

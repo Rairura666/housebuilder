@@ -20,7 +20,5 @@ export const savePreview = async (user: User | null, project: Project | null, bl
         return
     }
 
-    console.log(filePath)
     return filePath
-
 }

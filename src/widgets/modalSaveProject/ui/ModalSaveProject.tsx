@@ -2,22 +2,25 @@ import { useState } from "react"
 import { modalSaveProjectProps } from "../../../shared/types/types"
 import "./ModalSaveProject.css"
 
-export const ModalSaveProject = ({ closeModal, saveProject }: modalSaveProjectProps) => {
+export const ModalSaveProject = ({ closeModal, saveProject, projectName}: modalSaveProjectProps) => {
 
-    const [projectName, setProjectName] = useState<string>("")
+    const [modalProjectName, setProjectName] = useState<string>(projectName!="NEW PROJECT" ? projectName : "")
     
     return (
         <>
             <div className="modalSaveProjectWrapper">
                 <div className="modalSaveProjectContent">
                     <span>Enter project name:</span>
+
                     <input
                         type="text"
                         className="projectNameInput"
-                        value={projectName}
+                        value={modalProjectName}
                         onChange={(e) => setProjectName(e.target.value)}
                     ></input>
-                    <button onClick={() => { saveProject(projectName); closeModal() }}>Save</button>
+
+                    <button onClick={()=>saveProject(modalProjectName)}>Save</button>
+
                     <button onClick={closeModal}>Close</button>
                 </div>
             </div>

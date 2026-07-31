@@ -25,6 +25,8 @@ export const CreatePage = () => {
 
     const { user } = useAuth()
 
+    const [project, setProject] = useState<Project | null>(null)
+
     const [isUnsaved, setIsUnsaved] = useState(false)
 
     const [isModalSaveUnsavedOpened, setIsModalSaveUnsavedOpened] = useState<boolean>(false)
@@ -35,16 +37,23 @@ export const CreatePage = () => {
 
     const [isCanvasSelected, setIsCanvasSelected] = useState<boolean>(false)
 
+    const [isProjectNameEdit, setIsProjectNameEdit] = useState<boolean>(false)
+
+    const [isNewProjectPending, setIsNewProjectPending] = useState<boolean>(false)
+
+    const [projectName, setProjectName] = useState<string>(project ? project.project_name : "NEW PROJECT")
+
+    const [oldProjectName, setOldProjectName] = useState<string>(projectName)
+
     const canvasRef = useRef<HTMLDivElement>(null)
 
     const [canvasElements, setCanvasElements] = useState<canvasElement[]>([])
 
     const { changeHistory, undo, redo, resetHistory } = useHistory(setCanvasElements)
+
     const { handleDragStart, handleDragEnd, activeDrag } = useDrag(canvasRef, setCanvasElements, setIsUnsaved)
 
     const location = useLocation()
-
-    const [project, setProject] = useState<Project | null>(null)
 
     const [selectedPalette, setSelectedPalette] = useState<string>(palettes.yellowBlue)
     const [selectedElemId, setSelectedElemId] = useState<string | null>(null)
@@ -61,11 +70,13 @@ export const CreatePage = () => {
         setCanvasElements(project.canvas_elements)
 
         setIsModalProjectsListOpened(false)
+
+        setProjectName(project.project_name)
     }
 
 
     const handleSaveProject = async (projectName: string) => {
-
+        console.log("handleSaveProject started")
         const savedProject = await saveProject(
             user,
             project,
@@ -76,11 +87,13 @@ export const CreatePage = () => {
         )
 
         if (!savedProject) {
-
             console.log("!savedProject")
             return
         }
+
         setProject(savedProject)
+        setProjectName(savedProject.project_name)
+        setOldProjectName(savedProject.project_name)
 
         if (!canvasRef.current) {
             console.log("!canvasRef.current")
@@ -102,6 +115,10 @@ export const CreatePage = () => {
         }
 
         await updateProjectPreviewURL(savedProject, previewFilePath)
+
+        setIsUnsaved(false)
+
+        console.log("handleSaveProject finished")
     }
 
     useEffect(() => {
@@ -112,13 +129,7 @@ export const CreatePage = () => {
         }
     }, [])
 
-    const handleSaveButtonClick = async() => {
-        if (!project) {
-            setIsModalSaveProjectOpened(true)
-        } else {
-            await handleSaveProject(project.project_name)
-        }
-    }
+
 
     const [canvasWidth, setCanvasWidth] = useState<number>(30)
     const [canvasHeight, setCanvasHeight] = useState<number>(30)
@@ -141,17 +152,47 @@ export const CreatePage = () => {
         setIsCanvasSelected(false)
     }
 
+    const confirmChangeProjectName = (newProjectName: string) => {
+        console.log("confirmChangeProjectName started")
+        if (newProjectName.length > 1000)
+            return
+
+        setProjectName(newProjectName)
+        setOldProjectName(newProjectName)
+
+        setIsUnsaved(true)
+        setIsProjectNameEdit(false)
+
+        console.log("confirmChangeProjectName finished")
+    }
+
+    const cancelChangeProjectName = () => {
+        setProjectName(oldProjectName)
+        setIsProjectNameEdit(false)
+    }
+
     const handleCreateNewProject = () => {
 
+        console.log("handleCreateNewProject started")
         if (isUnsaved) {
+            setIsNewProjectPending(true)
             setIsModalSaveUnsavedOpened(true)
+            console.log("handleCreateNewProject returned")
             return
         }
 
         createNewProject()
+        console.log("handleCreateNewProject finished")
     }
 
     const createNewProject = () => {
+
+        setIsNewProjectPending(false)
+
+        setIsModalProjectsListOpened(false)
+
+        setProjectName("NEW PROJECT")
+        setOldProjectName("NEW PROJECT")
 
         setIsUnsaved(false)
         setProject(null)
@@ -165,8 +206,49 @@ export const CreatePage = () => {
         setSelectedElemId(null)
         setSelectedPalette(palettes.yellowBlue)
         setIsCanvasSelected(false)
+        setIsProjectNameEdit(false)
 
         resetHistory([])
+    }
+
+    const handleSaveButtonClick = async () => {
+        console.log("handleSaveButtonClick started")
+        if (!project) {
+            setIsModalSaveProjectOpened(true)
+        } else {
+            await handleSaveProject(projectName)
+        }
+        console.log("handleSaveButtonClick finished")
+    }
+
+    const handleSaveUnsaved = async () => {
+        if (project) {
+            await handleSaveProject(projectName)
+            createNewProject()
+            setIsModalSaveUnsavedOpened(false)
+            return
+        }
+
+        if (projectName !== "NEW PROJECT") {
+            await handleSaveProject(projectName)
+            createNewProject()
+            setIsModalSaveUnsavedOpened(false)
+            return
+        }
+
+        setIsModalSaveUnsavedOpened(false)
+        setIsModalSaveProjectOpened(true)
+    }
+
+    const handleSaveProjectWithName = async (name: string) => {
+        await handleSaveProject(name)
+
+        setIsModalSaveProjectOpened(false)
+
+        if (isNewProjectPending) {
+            setIsNewProjectPending(false)
+            createNewProject()
+        }
     }
 
     return (
@@ -175,7 +257,7 @@ export const CreatePage = () => {
             {isModalSaveUnsavedOpened &&
                 <ModalSaveUnsaved
                     closeModal={() => setIsModalSaveUnsavedOpened(false)}
-                    saveProject={async() => {await handleSaveButtonClick()}}
+                    saveProject={handleSaveUnsaved}
                     createNewProject={createNewProject}
                 />}
 
@@ -183,12 +265,14 @@ export const CreatePage = () => {
                 <ModalProjectsList
                     closeModal={() => setIsModalProjectsListOpened(false)}
                     onProjectSelect={handleOpenProject}
+                    createNewProject={createNewProject}
                 />}
 
             {isModalSaveProjectOpened && !project &&
                 <ModalSaveProject
+                    projectName={projectName}
                     closeModal={() => setIsModalSaveProjectOpened(false)}
-                    saveProject={handleSaveProject}
+                    saveProject={handleSaveProjectWithName}
                 />
             }
 
@@ -215,7 +299,7 @@ export const CreatePage = () => {
 
 
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={handleSaveButtonClick} setIsModalOpened={setIsModalProjectsListOpened} handleCreateNewProject={handleCreateNewProject} />
+                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={async () => await handleSaveButtonClick()} setIsModalOpened={setIsModalProjectsListOpened} handleCreateNewProject={handleCreateNewProject} />
                         </div>
                     </div>
                 </div>
@@ -224,9 +308,25 @@ export const CreatePage = () => {
                 <div className="projectStatePanel">
                     <div className="projectNameInfo">
                         PROJECT NAME:
-                        {project ?
-                            <span> {project.project_name} </span>
-                            : <span> NEW PROJECT </span>}
+                        {isProjectNameEdit ?
+
+                            <input className="projectNameInput"
+                                value={projectName}
+                                onChange={(e) => setProjectName(e.target.value)}
+                            ></input>
+                            :
+
+                            <span> {projectName} </span>
+                        }
+                        {isProjectNameEdit ?
+                            <>
+                                <button onClick={() => confirmChangeProjectName(projectName)}>✔</button>
+
+                                <button onClick={cancelChangeProjectName}>✖</button>
+                            </>
+                            : <button onClick={() => setIsProjectNameEdit(true)}>▶</button>
+                        }
+
                     </div>
                     <div className="canvasSizeInfo">
                         <span>

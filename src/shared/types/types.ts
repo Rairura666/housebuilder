@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react"
 import { User } from "@supabase/supabase-js"
 
-
 export type canvasElement = {
     id: string,
     category: string,
@@ -85,11 +84,13 @@ export type projectPreviewProps = {
 
 export type modalProjectsListProps = {
     closeModal: () => void,
-    onProjectSelect: (project: Project) => void
+    onProjectSelect: (project: Project) => void,
+    createNewProject: () => void,
 }
 
 export type ProfileProjectsListProps = {
-    onProjectSelect: (project: Project) => void
+    onProjectSelect: (project: Project) => void,
+    createNewProject: () => void,
 }
 
 export interface AuthContextType {
@@ -99,11 +100,12 @@ export interface AuthContextType {
 
 export type modalSaveProjectProps = {
     closeModal: () => void,
-    saveProject: (projectName: string) => void
+    saveProject: (projectName: string) => void,
+    projectName: string,
 }
 
 export type modalSaveUnsavedProps = {
     closeModal: () => void,
-    saveProject: () => void, 
+    saveProject: () => void,
     createNewProject: () => void,
 }

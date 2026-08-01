@@ -19,6 +19,7 @@ import { savePreview } from "../../../features/createControlPanel/api/savePrevie
 import { updateProjectPreviewURL } from "../../../features/createControlPanel/api/updateProjectPreviewURL"
 import { ModalSaveProject } from "../../../widgets/modalSaveProject/ui/ModalSaveProject"
 import { ModalSaveUnsaved } from "../../../widgets/ModalSaveUnsaved/ui/ModalSaveUnsaved"
+import { convertCanvasToPng } from "../model/convertCanvasToPng"
 
 
 export const CreatePage = () => {
@@ -251,6 +252,27 @@ export const CreatePage = () => {
         }
     }
 
+    const exportProjectToPng = async () => {
+
+        if (!canvasRef)
+            return
+
+        const selectedElemIdTmp = selectedElemId
+
+        setSelectedElemId(null)
+
+        const dataUrl = await convertCanvasToPng(canvasRef)
+
+        if (!dataUrl) return
+
+        const link = document.createElement("a")
+        link.download = `${projectName}.png`
+        link.href = dataUrl
+        link.click()
+
+        setSelectedElemId(selectedElemIdTmp)
+    }
+
     return (
         <div className="createPageWrapper">
 
@@ -299,7 +321,8 @@ export const CreatePage = () => {
 
 
                         <div className="createControlPanel">
-                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={async () => await handleSaveButtonClick()} setIsModalOpened={setIsModalProjectsListOpened} handleCreateNewProject={handleCreateNewProject} />
+                            <CreateControlPanel undo={undo} redo={redo} handleSaveProject={async () => await handleSaveButtonClick()} setIsModalOpened={setIsModalProjectsListOpened} handleCreateNewProject={handleCreateNewProject}
+                                exportProjectToPng={exportProjectToPng} />
                         </div>
                     </div>
                 </div>

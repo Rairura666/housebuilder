@@ -6,6 +6,7 @@ export const convertCanvasToPng = async(ref: React.RefObject<HTMLDivElement | nu
 
     const dataUrl = await toPng(ref.current, {
         cacheBust: true,
+        pixelRatio: 4
     })
 
     return dataUrl

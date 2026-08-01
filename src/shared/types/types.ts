@@ -49,6 +49,7 @@ export type createControlPanelProps = {
     handleSaveProject: () => void,
     setIsModalOpened: Dispatch<SetStateAction<boolean>>,
     handleCreateNewProject: () => void,
+    exportProjectToPng: () => void,
 }
 
 export type canvasElementProps = {

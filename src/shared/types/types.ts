@@ -90,8 +90,7 @@ export type modalProjectsListProps = {
 }
 
 export type ProfileProjectsListProps = {
-    onProjectSelect: (project: Project) => void,
-    createNewProject: () => void,
+    onProjectSelect: (project: Project) => void
 }
 
 export interface AuthContextType {

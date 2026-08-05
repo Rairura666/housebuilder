@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { CreateItemsPanel } from "../../../features/CreateItemsPanel/ui/CreateItemsPanel"
 import { CreateControlPanel } from "../../../features/createControlPanel/ui/CreateControlPanel"
-import { CreatePalettePanel } from "../../../features/CreatePalettePanel"
+import { CreatePalettePanel } from "../../../features/CreatePalettePanel/ui/CreatePalettePanel"
 import { DrawingCanvas } from "../../../widgets/DrawingCanvas/ui/DrawingCanvas"
 import "./CreatePage.css"
 import { canvasElement, Project } from "../../../shared/types/types"
@@ -20,6 +20,9 @@ import { updateProjectPreviewURL } from "../../../features/createControlPanel/ap
 import { ModalSaveProject } from "../../../widgets/modalSaveProject/ui/ModalSaveProject"
 import { ModalSaveUnsaved } from "../../../widgets/ModalSaveUnsaved/ui/ModalSaveUnsaved"
 import { convertCanvasToPng } from "../model/convertCanvasToPng"
+import pencilIcon from "../../../shared/assets/editIcon.png"
+import done from "../../../shared/assets/done.png"
+import cancel from "../../../shared/assets/cancel.png"
 
 
 export const CreatePage = () => {
@@ -124,9 +127,14 @@ export const CreatePage = () => {
 
     useEffect(() => {
         const projectFromProfile = location.state?.project
+        const isNewProjectCreated = location.state?.new
 
         if (projectFromProfile) {
             handleOpenProject(projectFromProfile)
+        }
+
+        if (isNewProjectCreated) {
+            createNewProject()
         }
     }, [])
 
@@ -343,17 +351,31 @@ export const CreatePage = () => {
                         }
                         {isProjectNameEdit ?
                             <>
-                                <button onClick={() => confirmChangeProjectName(projectName)}>✔</button>
+                                <button
+                                    className="pixelIconBtn"
+                                    onClick={() => confirmChangeProjectName(projectName)}>
+                                    ✔
+                                </button>
 
-                                <button onClick={cancelChangeProjectName}>✖</button>
+                                <button
+                                    className="pixelIconBtn"
+                                    onClick={cancelChangeProjectName}>
+                                    ✖
+                                </button>
                             </>
-                            : <button onClick={() => setIsProjectNameEdit(true)}>▶</button>
+                            : <button
+                                className="pixelIconBtn"
+                                onClick={() => setIsProjectNameEdit(true)}>
+                                ✎
+                            </button>
                         }
 
                     </div>
                     <div className="canvasSizeInfo">
                         <span>
                             CANVAS SIZE:
+                        </span>
+                        <div className="canvasSizeInfoNumbers">
                             {isCanvasSelected ?
 
                                 <input className="canvasSizeInput"
@@ -370,16 +392,27 @@ export const CreatePage = () => {
                                     onChange={(e) => setNewCanvasHeight(Math.floor(Number(e.target.value)))}
                                 ></input>
                                 : <span className="canvasSizeNumber">{canvasHeight}</span>}
-                        </span>
+                        </div>
+
 
                         {isCanvasSelected ?
                             <>
                                 <span className="maxCanvasSize">MAX: 100</span>
-                                <button onClick={() => confirmResize(newCanvasWidth, newCanvasHeight)}>✔</button>
+                                <button
+                                    className="pixelIconBtn"
+                                    onClick={() => confirmResize(newCanvasWidth, newCanvasHeight)}>
+                                    ✔
+                                </button>
 
-                                <button onClick={() => cancelResize()}>✖</button>
+                                <button className="pixelIconBtn" onClick={() => cancelResize()}>
+                                    ✖
+                                </button>
                             </>
-                            : <button onClick={() => setIsCanvasSelected(true)}>▶</button>
+                            : <button
+                                className="pixelIconBtn"
+                                onClick={() => setIsCanvasSelected(true)}>
+                                ✎
+                            </button>
                         }
                     </div>
 

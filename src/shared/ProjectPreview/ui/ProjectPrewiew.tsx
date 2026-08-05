@@ -1,5 +1,5 @@
 import { projectPreviewProps } from "../../types/types"
-import "../../../app/styles/ProjectPreview.css"
+import "./ProjectPreview.css"
 import { useEffect, useState } from "react"
 import { getPreviewURL } from "../getPreviewURL"
 

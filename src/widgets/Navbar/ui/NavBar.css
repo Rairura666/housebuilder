@@ -1,0 +1,56 @@
+.navBarWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(#202225, #18191b);
+  border-bottom: 2px solid #50453f;
+  box-shadow: inset 0 -1px 0 #2f2b29, 0 1px 0 #131313;
+  image-rendering: pixelated;
+  position: relative;
+  z-index: 100;
+}
+
+.navBarWrapper::before {
+  content: "HOUSE BUILDER";
+  margin-right: auto;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  color: #b98e6b;
+  text-shadow: 0 0 4px rgba(185, 142, 107, 0.15);
+  text-transform: uppercase;
+}
+
+.navBarBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 0.2rem 0.3rem;
+  text-decoration: none;
+  color: #d7cab8;
+  background: linear-gradient(#292b2d, #1d1e20);
+  border: 2px solid #5b4d45;
+  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.08s;
+  image-rendering: pixelated;
+  letter-spacing: 1px;
+}
+
+.navBarBtn:hover {
+  background: linear-gradient(#313335, #252628);
+  border-color: #b97a6c;
+  color: #f1e6d7;
+}
+
+.navBarBtn:active {
+  transform: translateY(1px);
+  background: #1a1b1c;
+  border-color: #cf8576;
+}
+
+.navBarBtn:focus-visible {
+  outline: none;
+  border-color: #cf8576;
+  box-shadow: 0 0 0 1px rgba(207, 133, 118, 0.3333333333);
+}/*# sourceMappingURL=NavBar.css.map */

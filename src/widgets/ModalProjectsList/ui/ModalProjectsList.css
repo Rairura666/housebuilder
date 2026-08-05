@@ -1,0 +1,85 @@
+.modalProjectsListWrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  box-sizing: border-box;
+  padding: 2rem 20%;
+  background: rgba(10, 10, 10, 0.78);
+  backdrop-filter: blur(2px);
+  image-rendering: pixelated;
+}
+
+.modalProjectsListContent {
+  width: min(1100px, 100%);
+  height: min(80vh, 900px);
+  overflow-y: auto;
+  background: #1b1c1f;
+  border: 2px solid #50453f;
+  box-shadow: inset 0 0 0 1px #2c2a29, 0 0 0 1px #131313, 0 12px 35px rgba(0, 0, 0, 0.45);
+  color: #d7cab6;
+  overflow: hidden;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.modalProjectsListContent .profileProjectListWrapper {
+  flex: 1;
+  padding: 0;
+  min-height: 0;
+}
+
+.modalProjectsListContent .projectList {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 0.4rem;
+}
+
+.modalProjectsListContent .projectList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modalProjectsListContent .projectList::-webkit-scrollbar-track {
+  background: #1b1b1d;
+}
+
+.modalProjectsListContent .projectList::-webkit-scrollbar-thumb {
+  background: #4b403a;
+  border: 2px solid #1b1b1d;
+}
+
+.modalProjectsListContent .projectList::-webkit-scrollbar-thumb:hover {
+  background: #6b5b51;
+}
+
+.modalProjectsListContent button:last-child {
+  align-self: center;
+  min-width: 140px;
+  padding: 0.65rem 1rem;
+  background: #242528;
+  border: 2px solid #5a4d45;
+  color: #d7cab6;
+  font: inherit;
+  cursor: pointer;
+  transition: 0.12s;
+  image-rendering: pixelated;
+}
+
+.modalProjectsListContent button:last-child:hover {
+  border-color: #c38272;
+  color: #fff2de;
+  background: #2b2c30;
+}
+
+.modalProjectsListContent button:last-child:active {
+  transform: translateY(1px);
+  background: #17181a;
+}/*# sourceMappingURL=ModalProjectsList.css.map */

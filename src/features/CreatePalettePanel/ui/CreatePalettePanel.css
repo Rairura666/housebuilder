@@ -1,0 +1,68 @@
+@charset "UTF-8";
+.createPalettePanelWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.5rem;
+  background: #1b1c1f;
+  border: 2px solid #50453f;
+  box-shadow: inset 0 0 0 1px #2c2a29, 0 0 0 1px #131313;
+  image-rendering: pixelated;
+}
+
+.createPaletteBtn {
+  cursor: pointer;
+  background: linear-gradient(#242628, #1d1e20);
+  border: 2px solid #5a4c44;
+  color: #d8cab7;
+  font: inherit;
+  text-align: left;
+  width: 100%;
+  padding: 0.3rem 0.3rem;
+  transition: background 0.12s, border-color 0.12s, transform 0.08s;
+  image-rendering: pixelated;
+}
+
+.createPalettePanelPalettes {
+  display: flex;
+  gap: 0.2rem;
+  flex-direction: column;
+  margin-top: 0.3rem;
+}
+
+.createPaletteBtn:hover {
+  background: linear-gradient(#2d2f31, #232426);
+  border-color: #b97a6c;
+  color: #efe3d2;
+}
+
+.createPaletteBtn:active {
+  transform: translateY(1px);
+  background: #191a1b;
+  border-color: #cf8576;
+}
+
+.createPaletteBtn:focus-visible {
+  outline: none;
+  border-color: #cf8576;
+  box-shadow: 0 0 0 1px rgba(207, 133, 118, 0.3333333333);
+}
+
+.createPaletteBtn::before {
+  content: "■";
+  display: inline-block;
+  margin-right: 0.65rem;
+  color: #8d7667;
+}
+
+.createPaletteBtn:nth-child(1)::before {
+  color: #d3a84b;
+}
+
+.createPaletteBtn:nth-child(2)::before {
+  color: #9b615d;
+}
+
+.createPaletteBtn:nth-child(3)::before {
+  color: #a8a8a8;
+}/*# sourceMappingURL=CreatePalettePanel.css.map */

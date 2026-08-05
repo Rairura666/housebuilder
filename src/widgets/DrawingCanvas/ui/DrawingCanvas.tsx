@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect} from "react"
 import {  drawingCanvasProps } from "../../../shared/types/types"
 import { useDroppable } from "@dnd-kit/core"
 import { CanvasElement } from "../../../entities/canvasElement/ui/CanvasElement"
-import "../../../app/styles/DrawingCanvas.css"
+import "./DrawingCanvas.css"
 import { CANVAS_PIXEL_SIZE } from "../../../shared/config/constants"
-import Moveable from "react-moveable"
 
 export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory, newCanvasWidth, newCanvasHeight, setIsUnsaved}: drawingCanvasProps) => {
 

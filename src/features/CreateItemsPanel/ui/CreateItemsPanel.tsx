@@ -1,9 +1,10 @@
 import { useState } from "react"
 import {createItemsPanelProps, elementGeneral} from "../../../shared/types/types"
 import { palettes, categories} from "../../../shared/config/constants"
-import { ElementPreview } from "../../../shared/ElementPreview"
+import { ElementPreview } from "../../../shared/ElementPreview/ui/ElementPreview"
 import { filterElements } from "../model/filterElements"
 import { useCategory } from "../model/useCategory"
+import "./CreateItemsPanel.css"
 
     const elem1:elementGeneral = {
         id: "1",
@@ -14,19 +15,19 @@ import { useCategory } from "../model/useCategory"
     const elem2:elementGeneral = {
         id: "2",
         category: categories.door,
-        palette: palettes.yellowBlue
+        palette: palettes.redGreen
     }
 
     const elem3:elementGeneral = {
         id: "3",
         category: categories.window,
-        palette: palettes.blackWhite
+        palette: palettes.redGreen
     }
 
     const elem4:elementGeneral = {
         id: "4",
         category: categories.base,
-        palette: palettes.yellowBlue
+        palette: palettes.redGreen
     }
 
      const elem5:elementGeneral = {
@@ -35,7 +36,55 @@ import { useCategory } from "../model/useCategory"
         palette: palettes.redGreen
     }
     
-const itemsPanelElements: elementGeneral[] = [elem1, elem2, elem3, elem4, elem5]
+     const elem6:elementGeneral = {
+        id: "6",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+    
+     const elem7:elementGeneral = {
+        id: "7",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+
+         const elem8:elementGeneral = {
+        id: "8",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+    
+     const elem9:elementGeneral = {
+        id: "9",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+    
+     const elem10:elementGeneral = {
+        id: "10",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+        
+     const elem11:elementGeneral = {
+        id: "11",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+        
+     const elem12:elementGeneral = {
+        id: "12",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+        
+     const elem13:elementGeneral = {
+        id: "13",
+        category: categories.roof,
+        palette: palettes.redGreen
+    }
+    
+const itemsPanelElements: elementGeneral[] = [elem1, elem2, elem3, elem4, elem5, elem6, elem7, elem8,elem9,elem10, elem11, elem12, elem13]
 
 export const CreateItemsPanel = ({selectedPalette}: createItemsPanelProps) => {
   

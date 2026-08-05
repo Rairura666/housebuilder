@@ -8,12 +8,12 @@ import { loadProjects } from "../api/loadProjects"
 import { deleteProject } from "../api/deleteProject"
 import { useNavigate } from "react-router-dom"
 
-export const ProjectsList = ({ onProjectSelect, createNewProject }: ProfileProjectsListProps) => {
+export const ProjectsList = ({ onProjectSelect }: ProfileProjectsListProps) => {
 
     const { user } = useAuth()
 
     const [projects, setProjects] = useState<Project[]>([])
-    
+
     const navigate = useNavigate()
 
     const handleDeleteProject = async (projectId: string) => {
@@ -57,17 +57,23 @@ export const ProjectsList = ({ onProjectSelect, createNewProject }: ProfileProje
         <div className="profileProjectListWrapper">
             {projects.length == 0 ?
                 <div className="projectsListNoProjectsMessage">No projects yet!
-                    <button onClick={()=>{navigate("/create"); createNewProject()}}>Create</button>
+                    <button onClick={() => {
+                        navigate("/create", {
+                            state: {
+                                mode: "new",
+                            },
+                        })
+                    }}>Create</button>
                 </div>
                 :
                 <div className="projectList">
-                {projects.map(project =>
-                    <ProjectPreview
-                        key={project.id}
-                        project={project}
-                        onProjectSelect={onProjectSelect}
-                        deleteProject={() => handleDeleteProject(project.id)}
-                    />)}
+                    {projects.map(project =>
+                        <ProjectPreview
+                            key={project.id}
+                            project={project}
+                            onProjectSelect={onProjectSelect}
+                            deleteProject={() => handleDeleteProject(project.id)}
+                        />)}
                 </div>}
         </div>
     )

@@ -36,8 +36,8 @@ export const ProfilePage = () => {
                 </div>
             </div>
             <div className="profileProjectsList">
-                <h3>Your projects</h3>
-                <ProjectsList onProjectSelect={handleProjectSelect} />
+                <label>Your projects</label>
+                <ProjectsList onProjectSelect={handleProjectSelect}/>
             </div>
         </div>
     )

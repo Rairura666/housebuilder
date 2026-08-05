@@ -14,7 +14,7 @@ export const ModalSaveProject = ({ closeModal, saveProject, projectName}: modalS
 
                     <input
                         type="text"
-                        className="projectNameInput"
+                        className="modalProjectNameInput"
                         value={modalProjectName}
                         onChange={(e) => setProjectName(e.target.value)}
                     ></input>

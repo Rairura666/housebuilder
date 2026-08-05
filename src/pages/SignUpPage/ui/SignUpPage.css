@@ -1,26 +1,99 @@
 .signUpWrapper {
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding: 3rem;
+  box-sizing: border-box;
+  background: linear-gradient(#18191b, #131416);
+  image-rendering: pixelated;
+  height: 100%;
 }
 
 .signUpContent {
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  padding: 2rem;
-  width: 50%;
   gap: 1rem;
-  margin-top: 10%;
-  align-items: center;
-}
-.signUpContent button {
-  width: 30%;
+  width: min(100%, 420px);
+  padding: 2rem;
+  background: #1b1c1f;
+  border: 2px solid #50453f;
+  box-shadow: inset 0 0 0 1px #2c2a29, 0 0 0 1px #131313, 0 10px 30px rgba(0, 0, 0, 0.45);
+  color: #d2c4b1;
 }
 
-.signInRedirectToSignIn {
-  display: flex;
-  gap: 1rem;
+.signUpContent input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  box-sizing: border-box;
+  background: #161718;
+  border: 2px solid #5b4d45;
+  color: #e7d8c3;
+  font: inherit;
+  outline: none;
+  transition: 0.12s;
 }
-.signInRedirectToSignIn a {
-  white-space: none;
+
+.signUpContent input::-moz-placeholder {
+  color: #7f7066;
+}
+
+.signUpContent input::placeholder {
+  color: #7f7066;
+}
+
+.signUpContent input:hover {
+  border-color: #b97a6c;
+}
+
+.signUpContent input:focus {
+  border-color: #cf8576;
+  box-shadow: 0 0 0 1px rgba(207, 133, 118, 0.3333333333);
+}
+
+.signUpContent button {
+  margin-top: 0.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  background: #2d2a29;
+  color: #d8cab7;
+  border: 2px solid #5b4d45;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: 0.12s;
+}
+
+.signUpContent button:hover {
+  background: #cf8576;
+  border-color: #cf8576;
+  color: #181818;
+}
+
+.signUpContent button:active {
+  transform: translateY(1px);
+  background: #b96f61;
+}
+
+.signUpRedirectToSignIn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid #433a35;
+  color: #9f8e7b;
+  font-size: 0.9rem;
+}
+
+.signUpRedirectToSignIn a {
+  color: #cf8576;
+  text-decoration: underline;
+  white-space: nowrap;
+  transition: 0.12s;
+}
+
+.signUpRedirectToSignIn a:hover {
+  color: #f1b2a6;
 }/*# sourceMappingURL=SignUpPage.css.map */

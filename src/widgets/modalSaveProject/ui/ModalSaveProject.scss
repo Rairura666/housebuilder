@@ -1,36 +1,120 @@
 .modalSaveProjectWrapper {
     position: fixed;
-    z-index: 1000;
+    inset: 0;
 
-    background-color: rgba(0, 0, 0, 0.5);
-    flex: 1;
+    z-index: 1000;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    box-sizing: border-box;
-    padding-inline: 20%;
+    padding: 2rem;
 
-    inset: 0;
+    background: rgba(10, 10, 10, .78);
+
+    backdrop-filter: blur(2px);
 }
 
 .modalSaveProjectContent {
-    width: min(100%, 1000px);
-    max-height: 100%;
-
-    overflow-y: auto;
-
-    background: white;
-    padding: 1rem;
-    box-sizing: border-box;
+    width: min(420px, 100%);
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 0.5rem;
 
-    h3 {
-        margin: 0;
-    }
+    gap: 1rem;
+
+    padding: 1.4rem;
+
+    background: #1b1c1f;
+
+    border: 2px solid #50453f;
+
+    box-shadow:
+        inset 0 0 0 1px #2c2a29,
+        0 0 0 1px #131313,
+        0 10px 35px rgba(0, 0, 0, .55);
+
+    color: #d2c4b1;
+
+    image-rendering: pixelated;
+}
+
+.modalSaveProjectContent span {
+    font-size: .75rem;
+
+    text-transform: uppercase;
+
+    letter-spacing: 2px;
+
+    color: #a38f7d;
+}
+
+.modalProjectNameInput {
+    background: #161718;
+
+    border: 2px solid #5b4d45;
+
+    color: #d8cab7;
+
+    padding: .6rem .8rem;
+
+    font: inherit;
+
+    outline: none;
+
+    transition: .12s;
+}
+
+.modalProjectNameInput::placeholder {
+    color: #7d7065;
+}
+
+.modalProjectNameInput:hover {
+    border-color: #b97a6c;
+}
+
+.modalProjectNameInput:focus {
+    border-color: #cf8576;
+
+    box-shadow: 0 0 0 1px rgba(207, 133, 118, .35);
+}
+
+.modalSaveProjectContent button {
+    background: #202124;
+
+    border: 2px solid #5b4d45;
+
+    color: #d8cab7;
+
+    padding: .65rem;
+
+    font: inherit;
+
+    cursor: pointer;
+
+    transition: .12s;
+}
+
+.modalSaveProjectContent button:hover {
+    border-color: #b97a6c;
+
+    background: #28292d;
+}
+
+.modalSaveProjectContent button:active {
+    transform: translateY(1px);
+}
+
+.modalSaveProjectContent button:first-of-type {
+    border-color: #7a5d4d;
+}
+
+.modalSaveProjectContent button:first-of-type:hover {
+    border-color: #cf8576;
+
+    color: #f0dfcf;
+}
+
+.modalSaveProjectContent button:last-of-type {
+    color: #a89787;
 }

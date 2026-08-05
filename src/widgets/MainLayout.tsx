@@ -1,6 +1,6 @@
 import "../app/styles/GeneralPageWrapper.css"
 import { Outlet } from "react-router-dom"
-import { NavBar } from "./NavBar"
+import { NavBar } from "./Navbar/ui/NavBar"
 
 export const MainLayout = () => {
     return(

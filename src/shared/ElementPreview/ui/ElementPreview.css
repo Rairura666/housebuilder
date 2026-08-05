@@ -1,0 +1,8 @@
+.elementPreviewWrapper {
+  height: auto;
+  aspect-ratio: 1/2;
+  background: aliceblue;
+  color: black;
+  min-width: 0;
+  width: 100%;
+}/*# sourceMappingURL=ElementPreview.css.map */

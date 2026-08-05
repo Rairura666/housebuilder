@@ -34,7 +34,7 @@ export const SignUpPage = () => {
                     onClick={handleSignUpSubmit}
                 >Sign up</button>
 
-                <div className="signInRedirectToSignIn">
+                <div className="signUpRedirectToSignIn">
                     <span>Already have an account?</span>
                     <Link to="/signin">Sign in</Link>
                 </div>

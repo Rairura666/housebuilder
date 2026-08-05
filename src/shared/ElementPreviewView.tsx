@@ -1,5 +1,5 @@
 import { elementPreviewProps } from "./types/types";
-import "../app/styles/ElementPreview.css"
+import "./ElementPreview/ui/ElementPreview.css"
 
 
 export const ElementPreviewView = ({elemGeneral}: elementPreviewProps) => {

@@ -20,9 +20,6 @@ import { updateProjectPreviewURL } from "../../../features/createControlPanel/ap
 import { ModalSaveProject } from "../../../widgets/modalSaveProject/ui/ModalSaveProject"
 import { ModalSaveUnsaved } from "../../../widgets/ModalSaveUnsaved/ui/ModalSaveUnsaved"
 import { convertCanvasToPng } from "../model/convertCanvasToPng"
-import pencilIcon from "../../../shared/assets/editIcon.png"
-import done from "../../../shared/assets/done.png"
-import cancel from "../../../shared/assets/cancel.png"
 
 
 export const CreatePage = () => {
@@ -55,7 +52,12 @@ export const CreatePage = () => {
 
     const { changeHistory, undo, redo, resetHistory } = useHistory(setCanvasElements)
 
-    const { handleDragStart, handleDragEnd, activeDrag } = useDrag(canvasRef, setCanvasElements, setIsUnsaved)
+    useEffect(() => {
+        resetHistory([])
+
+    }, [])
+
+    const { handleDragStart, handleDragEnd, activeDrag } = useDrag(canvasRef, setCanvasElements, canvasElements, setIsUnsaved, changeHistory)
 
     const location = useLocation()
 
@@ -71,11 +73,12 @@ export const CreatePage = () => {
         setNewCanvasHeight(project.project_height)
         setNewCanvasWidth(project.project_width)
 
-        setCanvasElements(project.canvas_elements)
-
         setIsModalProjectsListOpened(false)
 
         setProjectName(project.project_name)
+
+        setCanvasElements(project.canvas_elements)
+        resetHistory(project.canvas_elements)
     }
 
 
@@ -205,7 +208,6 @@ export const CreatePage = () => {
 
         setIsUnsaved(false)
         setProject(null)
-        setCanvasElements([])
 
         setCanvasWidth(30)
         setCanvasHeight(30)
@@ -217,6 +219,7 @@ export const CreatePage = () => {
         setIsCanvasSelected(false)
         setIsProjectNameEdit(false)
 
+        setCanvasElements([])
         resetHistory([])
     }
 

@@ -1,11 +1,11 @@
-import { useEffect} from "react"
-import {  drawingCanvasProps } from "../../../shared/types/types"
+import { useEffect } from "react"
+import { drawingCanvasProps } from "../../../shared/types/types"
 import { useDroppable } from "@dnd-kit/core"
 import { CanvasElement } from "../../../entities/canvasElement/ui/CanvasElement"
 import "./DrawingCanvas.css"
 import { CANVAS_PIXEL_SIZE } from "../../../shared/config/constants"
 
-export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory, newCanvasWidth, newCanvasHeight, setIsUnsaved}: drawingCanvasProps) => {
+export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, canvasElements, setCanvasElements, changeHistory, newCanvasWidth, newCanvasHeight, setIsUnsaved }: drawingCanvasProps) => {
 
     const { setNodeRef } = useDroppable({
         id: 'canvasId',
@@ -16,24 +16,20 @@ export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, ca
         if (selectedElemId == null) {
             return
         }
+        
+        const newState = canvasElements.map(elem =>
+            elem.id === selectedElemId
+                ? {
+                    ...elem,
+                    x: elem.x + xShift,
+                    y: elem.y + yShift
+                }
+                : elem
+        )
 
-        setCanvasElements(prev => {
-            const newState = prev.map(
-                elem => elem.id === selectedElemId ?
-                    {
-                        id: elem.id,
-                        category: elem.category,
-                        palette: elem.palette,
-                        x: elem.x + xShift,
-                        y: elem.y + yShift
-                    }
-                    : elem
-            )
-
-            changeHistory(newState)
-            setIsUnsaved(true)
-            return newState
-        })
+        setCanvasElements(newState)
+        setIsUnsaved(true)
+        changeHistory(newState)
     }
 
     useEffect(() => {
@@ -69,36 +65,21 @@ export const DrawingCanvas = ({ canvasRef, setSelectedElemId, selectedElemId, ca
     }
 
     return (<>
-        {/* <Moveable
-            target={isCanvasSelected ? canvasRef.current : null}
-            resizable={true}
-            draggable={true}
-            keepRatio={false}
-            throttleResize={CANVAS_PIXEL_SIZE}
-            renderDirections={["n", "s", "e", "w", "nw", "ne", "sw", "se",]} 
-
-            onResize={e => {
-                e.target.style.width = `${e.width}px`;
-                e.target.style.height = `${e.height}px`;
-                e.target.style.transform = e.drag.transform;
-            }}
-        /> */}
 
         <div
             ref={setCanvasRef}
             className="canvas"
-            // onClick={() => {
-            //     setSelectedElemId(null)
-            //     setIsCanvasSelected(!isCanvasSelected)
-            // }}
+            onClick={() => {
+                setSelectedElemId(null)
+            }}
             style={{
-                width: newCanvasWidth < 100 ? newCanvasWidth * CANVAS_PIXEL_SIZE : 10 *CANVAS_PIXEL_SIZE,
-                height: newCanvasHeight < 100 ? newCanvasHeight * CANVAS_PIXEL_SIZE : 10 *CANVAS_PIXEL_SIZE,
+                width: newCanvasWidth < 100 ? newCanvasWidth * CANVAS_PIXEL_SIZE : 10 * CANVAS_PIXEL_SIZE,
+                height: newCanvasHeight < 100 ? newCanvasHeight * CANVAS_PIXEL_SIZE : 10 * CANVAS_PIXEL_SIZE,
                 maxWidth: "auto",
                 maxHeight: "auto",
                 minWidth: "auto",
                 minHeight: "auto",
-            }} 
+            }}
         >
             {canvasElements.map(elem =>
                 <div

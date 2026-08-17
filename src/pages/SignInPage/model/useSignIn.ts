@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { supabase } from "../../../shared/api/supabase"
 
 export const useSignIn = () => {
+
+    const [isSignInFailed, setisSignInFailed] = useState<boolean>(false)
    
     const navigate = useNavigate()
 
@@ -17,14 +19,14 @@ export const useSignIn = () => {
 
         if(error) {
             setPassword("")
+            setisSignInFailed(true)
             console.error(error.message)
             return
         }
 
-        console.log("Signed in!")
-        
+        setisSignInFailed(false)
         navigate("/profile")
     }
 
-    return {email, setEmail, password, setPassword, handleSignInSubmit}
+    return {email, setEmail, password, setPassword, handleSignInSubmit, isSignInFailed}
 }

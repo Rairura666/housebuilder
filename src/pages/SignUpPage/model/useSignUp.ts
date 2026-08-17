@@ -3,6 +3,9 @@ import { supabase } from "../../../shared/api/supabase"
 import { useNavigate } from "react-router-dom"
 
 export const useSignup = () => {
+
+    const [signUpError, setSignUpError] = useState<string | null>(null)
+
     const navigate = useNavigate()
 
     const [email, setEmail] = useState<string>("")
@@ -10,6 +13,8 @@ export const useSignup = () => {
     const [username, setUsername] = useState<string>("")
 
     const handleSignUpSubmit = async () => {
+
+        setSignUpError(null)
 
         const { data, error } = await supabase.auth.signUp({
             email,
@@ -22,6 +27,7 @@ export const useSignup = () => {
         })
 
         if (error) {
+            setSignUpError(error.code ?? "unknown_error")
             console.error(error.message)
             return
         }
@@ -30,7 +36,7 @@ export const useSignup = () => {
         navigate("/create")
     }
 
-    return { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit }
+    return { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit, signUpError }
 }
 
 

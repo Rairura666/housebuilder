@@ -4,7 +4,7 @@ import "./SignInPage.css"
 
 export const SignInPage = () => {
 
-    const { email, setEmail, password, setPassword, handleSignInSubmit } = useSignIn()
+    const { email, setEmail, password, setPassword, handleSignInSubmit, isSignInFailed } = useSignIn()
 
     return (<>
         <div className="signInWrapper">
@@ -26,6 +26,11 @@ export const SignInPage = () => {
                 <button
                     onClick={handleSignInSubmit}
                 >Sign in</button>
+
+                {isSignInFailed && 
+                <span className='signInErrorMessage'>Invalid email or password</span>
+                }
+
 
                 <div className="signInRedirectToSignUp">
                     <span>Don't have an account yet?</span>

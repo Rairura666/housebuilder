@@ -4,7 +4,13 @@ import "./SignUpPage.css"
 
 export const SignUpPage = () => {
 
-    const { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit } = useSignup()
+    const signUpErrorMessages: Record<string, string> = {
+        user_already_exists: "User already exists",
+        email_address_invalid: "Invalid email address",
+        weak_password: "Password must be at least 6 characters"
+    }
+
+    const { email, setEmail, password, setPassword, username, setUsername, handleSignUpSubmit, signUpError } = useSignup()
 
     return (<>
         <div className="signUpWrapper">
@@ -33,6 +39,12 @@ export const SignUpPage = () => {
                 <button
                     onClick={handleSignUpSubmit}
                 >Sign up</button>
+
+                {signUpError && (
+                    <div className="signUpErrorMessage">
+                        {signUpErrorMessages[signUpError] ?? "Something went wrong. Please try again."}
+                    </div>
+                )}
 
                 <div className="signUpRedirectToSignIn">
                     <span>Already have an account?</span>

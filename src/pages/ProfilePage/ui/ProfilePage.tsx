@@ -37,7 +37,7 @@ export const ProfilePage = () => {
             </div>
             <div className="profileProjectsList">
                 <label>Your projects</label>
-                <ProjectsList onProjectSelect={handleProjectSelect}/>
+                <ProjectsList onProjectSelect={handleProjectSelect} closeModal={()=>{}}/>
             </div>
         </div>
     )

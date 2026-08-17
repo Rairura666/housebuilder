@@ -8,7 +8,7 @@ import { loadProjects } from "../api/loadProjects"
 import { deleteProject } from "../api/deleteProject"
 import { useNavigate } from "react-router-dom"
 
-export const ProjectsList = ({ onProjectSelect }: ProfileProjectsListProps) => {
+export const ProjectsList = ({ onProjectSelect, closeModal }: ProfileProjectsListProps) => {
 
     const { user } = useAuth()
 
@@ -58,6 +58,7 @@ export const ProjectsList = ({ onProjectSelect }: ProfileProjectsListProps) => {
             {projects.length == 0 ?
                 <div className="projectsListNoProjectsMessage">No projects yet!
                     <button onClick={() => {
+                        closeModal()
                         navigate("/create", {
                             state: {
                                 mode: "new",

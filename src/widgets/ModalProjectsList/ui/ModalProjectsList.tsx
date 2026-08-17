@@ -6,7 +6,7 @@ export const ModalProjectsList = ({ closeModal, onProjectSelect }: modalProjects
     return (<>
         <div className="modalProjectsListWrapper">
             <div className="modalProjectsListContent">
-                <ProjectsList onProjectSelect={onProjectSelect}/>
+                <ProjectsList onProjectSelect={onProjectSelect} closeModal={closeModal}/>
                 <button onClick={closeModal}>Close</button>
             </div>
         </div>
